@@ -1,0 +1,11 @@
+C:\OrderFlow\src\OrderFlow.Domain\bin\Debug\net9.0\OrderFlow.Domain.deps.json
+C:\OrderFlow\src\OrderFlow.Domain\bin\Debug\net9.0\OrderFlow.Domain.dll
+C:\OrderFlow\src\OrderFlow.Domain\bin\Debug\net9.0\OrderFlow.Domain.pdb
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\OrderFlow.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\OrderFlow.Domain.AssemblyInfoInputs.cache
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\OrderFlow.Domain.AssemblyInfo.cs
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\OrderFlow.Domain.csproj.CoreCompileInputs.cache
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\OrderFlow.Domain.dll
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\refint\OrderFlow.Domain.dll
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\OrderFlow.Domain.pdb
+C:\OrderFlow\src\OrderFlow.Domain\obj\Debug\net9.0\ref\OrderFlow.Domain.dll
