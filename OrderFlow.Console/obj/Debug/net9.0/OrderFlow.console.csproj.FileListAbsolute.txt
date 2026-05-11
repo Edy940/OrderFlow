@@ -16,3 +16,4 @@ C:\OrderFlow\Orderflow.Console\obj\Debug\net9.0\refint\OrderFlow.console.dll
 C:\OrderFlow\Orderflow.Console\obj\Debug\net9.0\OrderFlow.console.pdb
 C:\OrderFlow\Orderflow.Console\obj\Debug\net9.0\OrderFlow.console.genruntimeconfig.cache
 C:\OrderFlow\Orderflow.Console\obj\Debug\net9.0\ref\OrderFlow.console.dll
+C:\OrderFlow\Orderflow.Console\obj\Debug\net9.0\OrderFlow.console.sourcelink.json

@@ -26,6 +26,10 @@ namespace OrderFlow.Domain.Entities
                 throw new ArgumentException("O preço do produto deve ser menor que zero.", nameof(preco));
             if (estoque < 0)
                 throw new ArgumentException("O estoque do produto não pode ser negativo.", nameof(estoque));
+            if(estoque == 0)
+                throw new ArgumentException("Este produto está com estoque zerado.", nameof(estoque));
+            if (preco > 10000)
+                throw new ArgumentException("Esse produto fornece um desconto de 10%.", nameof(preco));
         }
        
     }       
