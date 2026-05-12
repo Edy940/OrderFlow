@@ -1,26 +1,58 @@
 ﻿
+using OrderFlow.Application.DTO;
+using OrderFlow.Application.Services;
 using OrderFlow.Domain.Entities;
+using OrderFlow.Infrastructure.Repositories;
+using System.Text.Json;
 
-var cliente = new Cliente("João Silva", "ben@gmail.com");
-var produto = new Produto("Notebook", 3511, 10);
-var pedido = new Pedido(cliente);
+var clienteRepository = new ClienteRepository();
+var produtoRepository = new ProdutoRepository();
+var pedidoRepository = new PedidoRepository();
 
-pedido.AdicionarItem(produto, 5);
+var pedidoService = new PedidoService(pedidoRepository, produtoRepository, clienteRepository);
+;
 
-/*Console.WriteLine($"Pedido para: {pedido.Cliente.Nome}");
-Console.WriteLine($"Email: {pedido.Cliente.Email}");
-Console.WriteLine($"Data do Pedido: {pedido.Data}");
-Console.WriteLine($"Produto: {produto.Nome}");
-Console.WriteLine($"Preço Unitário: {produto.Preco:C}");
-Console.WriteLine($"Quantidade:  {produto.Estoque}");
-Console.WriteLine($"Valor Total: {pedido.ValorTotal}");*/
+var cliente = new Cliente("Cliente Gerado", "gerado@example.com");
+var produto = new Produto("Produto Gerado", 50m, 5);
+// Persiste nas coleções em memória para que PedidoService os encontre
+await clienteRepository.AdicionarAsync(cliente);
+await produtoRepository.AdicionarAsync(produto);
 
-Console.WriteLine($"Pedido para: {pedido.Cliente.Nome}");
-Console.WriteLine($"Email: {pedido.Cliente.Email}");
-Console.WriteLine($"Data do Pedido: {pedido.Data}");
-Console.WriteLine($"Produto: {produto.Nome}");
-Console.WriteLine($"Preço Unitário: {produto.Preco:C}");
+if (cliente == null)
+{
+    Console.WriteLine("Nenhum cliente disponível para criar o pedido.");
+    return;
+}
 
-Console.WriteLine(pedido.ValorTotal);
+if (produto == null)
+{
+    Console.WriteLine("Nenhum produto disponível para criar o pedido.");
+    return;
+}
 
 
+var dto = new CriarPedidoDto
+{
+    ClienteId = cliente.Id,
+    Itens = new List<ItemPedidoDto>
+    {
+        new ItemPedidoDto
+        {
+            ProdutoId = produto.Id,
+            Quantidade = 2
+        }
+    }
+};
+
+Console.WriteLine("DTO criado:");
+Console.WriteLine(JsonSerializer.Serialize(dto, new JsonSerializerOptions { WriteIndented = true }));
+
+try
+{
+    await pedidoService.CriarPedidoAsync(dto);
+    Console.WriteLine("Pedido criado com sucesso.");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Erro ao criar pedido: {ex.Message}");
+}

@@ -7,5 +7,6 @@ namespace OrderFlow.Domain.Interfaces
     {
         Task<Pedido> ObterPorIdAsync(Guid id);
         Task AdicionarAsync(Pedido pedido);
+        Task SalvarAsync(Pedido pedido);
     }
 }

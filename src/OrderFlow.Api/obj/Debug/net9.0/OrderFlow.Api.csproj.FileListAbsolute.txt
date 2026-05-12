@@ -8,6 +8,9 @@ C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\OrderFlow.Api.dll
 C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\OrderFlow.Api.pdb
 C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\OrderFlow.Application.dll
 C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\OrderFlow.Domain.dll
 C:\OrderFlow\src\OrderFlow.Api\bin\Debug\net9.0\OrderFlow.Infrastructure.dll
@@ -22,6 +25,7 @@ C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.AssemblyInfo.cs
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.csproj.CoreCompileInputs.cache
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.sourcelink.json
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
@@ -30,7 +34,6 @@ C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\staticwebassets.build.json
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\staticwebassets.development.json
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlo.D98C6FF3.Up2Date
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.dll
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\refint\OrderFlow.Api.dll

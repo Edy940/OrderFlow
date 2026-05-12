@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net9.0": {
+      "OrderFlow.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "OrderFlow.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/OrderFlow.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/OrderFlow.Application.dll": {}
+        }
+      },
       "OrderFlow.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -11,19 +24,44 @@
         "runtime": {
           "bin/placeholder/OrderFlow.Domain.dll": {}
         }
+      },
+      "OrderFlow.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "OrderFlow.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/OrderFlow.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/OrderFlow.Infrastructure.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "OrderFlow.Application/1.0.0": {
+      "type": "project",
+      "path": "../src/OrderFlow.Application/OrderFlow.Application.csproj",
+      "msbuildProject": "../src/OrderFlow.Application/OrderFlow.Application.csproj"
+    },
     "OrderFlow.Domain/1.0.0": {
       "type": "project",
       "path": "../src/OrderFlow.Domain/OrderFlow.Domain.csproj",
       "msbuildProject": "../src/OrderFlow.Domain/OrderFlow.Domain.csproj"
+    },
+    "OrderFlow.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../src/OrderFlow.Infrastructure/OrderFlow.Infrastructure.csproj",
+      "msbuildProject": "../src/OrderFlow.Infrastructure/OrderFlow.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "OrderFlow.Domain >= 1.0.0"
+      "OrderFlow.Application >= 1.0.0",
+      "OrderFlow.Domain >= 1.0.0",
+      "OrderFlow.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -59,8 +97,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
+            "C:\\OrderFlow\\src\\OrderFlow.Application\\OrderFlow.Application.csproj": {
+              "projectPath": "C:\\OrderFlow\\src\\OrderFlow.Application\\OrderFlow.Application.csproj"
+            },
             "C:\\OrderFlow\\src\\OrderFlow.Domain\\OrderFlow.Domain.csproj": {
               "projectPath": "C:\\OrderFlow\\src\\OrderFlow.Domain\\OrderFlow.Domain.csproj"
+            },
+            "C:\\OrderFlow\\src\\OrderFlow.Infrastructure\\OrderFlow.Infrastructure.csproj": {
+              "projectPath": "C:\\OrderFlow\\src\\OrderFlow.Infrastructure\\OrderFlow.Infrastructure.csproj"
             }
           }
         }

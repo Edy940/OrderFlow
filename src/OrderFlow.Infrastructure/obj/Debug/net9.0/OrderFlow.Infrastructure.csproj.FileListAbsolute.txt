@@ -8,6 +8,7 @@ C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlow.Infrastruct
 C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlow.Infrastructure.AssemblyInfoInputs.cache
 C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlow.Infrastructure.AssemblyInfo.cs
 C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlow.Infrastructure.csproj.CoreCompileInputs.cache
+C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlow.Infrastructure.sourcelink.json
 C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlo.33AD7DA1.Up2Date
 C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\OrderFlow.Infrastructure.dll
 C:\OrderFlow\src\OrderFlow.Infrastructure\obj\Debug\net9.0\refint\OrderFlow.Infrastructure.dll
