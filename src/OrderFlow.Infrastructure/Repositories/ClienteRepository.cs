@@ -1,31 +1,33 @@
-﻿using OrderFlow.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
-
+using OrderFlow.Infrastructure.Data;
 
 namespace OrderFlow.Infrastructure.Repositories
 {
     public class ClienteRepository : IClienteRepository
     {
-        private static readonly List<Cliente> _clientes = new List<Cliente>
-        {
-            new Cliente("João Silva", "joao@email.com")
-        };
+        private readonly OrderFlowDbContext _context;
 
-        public Task<Cliente> ObterPorIdAsync(Guid id)
+        public ClienteRepository(OrderFlowDbContext context)
         {
-           
-            return Task.FromResult(_clientes.FirstOrDefault(c => c.Id == id));
+            _context = context;
         }
 
-        public Task AdicionarAsync(Cliente cliente)
+        public async Task<Cliente?> ObterPorIdAsync(Guid id)
         {
-            _clientes.Add(cliente);
-            return Task.CompletedTask;
+            return await _context.Clientes.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public Task<IEnumerable<Cliente>> ObterTodosAsync()
+        public async Task AdicionarAsync(Cliente cliente)
         {
-            return Task.FromResult<IEnumerable<Cliente>>(_clientes);
+            await _context.Clientes.AddAsync(cliente);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Cliente>> ObterTodosAsync()
+        {
+            return await _context.Clientes.ToListAsync();
         }
     }
 }

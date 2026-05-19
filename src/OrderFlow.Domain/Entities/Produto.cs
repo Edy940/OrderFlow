@@ -12,6 +12,7 @@ namespace OrderFlow.Domain.Entities
         public string Nome { get; set; } = string.Empty;
         public decimal Preco { get; set; }
         public decimal Estoque { get; set; }
+        protected Produto() { } // Construtor protegido para uso do Entity Framework ou outras ferramentas de ORM
 
         public Produto(string nome, decimal preco, int estoque)
         {

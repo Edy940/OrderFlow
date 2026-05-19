@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using OrderFlow.Application.Interfaces;
 using OrderFlow.Application.Services;
 using OrderFlow.Domain.Interfaces;
+using OrderFlow.Infrastructure.Data;
 using OrderFlow.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,10 @@ builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+
+builder.Services.AddDbContext<OrderFlowDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,35 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
-
+using OrderFlow.Infrastructure.Data;
 
 namespace OrderFlow.Infrastructure.Repositories
 {
     public class ProdutoRepository : IProdutoRepository
     {
-        private static readonly List<Produto> produtos = new()
-        {
-            new Produto("Notebook", 3500m, 10)
-        };
+        private readonly OrderFlowDbContext _context;
 
-        public Task<Produto> ObterPorIdAsync(Guid id)
+        public ProdutoRepository(OrderFlowDbContext context)
         {
-            var produto = produtos.FirstOrDefault(p => p.Id == id);
-            return Task.FromResult(produto);
+            _context = context;
         }
 
-        public Task AdicionarAsync(Produto produto)
+        public async Task<Produto?> ObterPorIdAsync(Guid id)
         {
-            produtos.Add(produto);
-            return Task.CompletedTask;
+            return await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<IEnumerable<Produto>> ObterTodosAsync()
+        public async Task AdicionarAsync(Produto produto    )
         {
-            return Task.FromResult<IEnumerable<Produto>>(produtos.ToList());
+            await _context.Produtos.AddAsync(produto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Produto>> ObterTodosAsync()
+        {
+            return await _context.Produtos.ToListAsync();
         }
     }
 }
