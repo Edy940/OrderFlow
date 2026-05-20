@@ -37,3 +37,4 @@ C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\refint\OrderFlow.Api.dll
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.pdb
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.genruntimeconfig.cache
 C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\ref\OrderFlow.Api.dll
+C:\OrderFlow\src\OrderFlow.Api\obj\Debug\net9.0\OrderFlow.Api.sourcelink.json

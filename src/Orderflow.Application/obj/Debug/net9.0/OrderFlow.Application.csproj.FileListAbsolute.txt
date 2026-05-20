@@ -13,3 +13,4 @@ C:\OrderFlow\src\OrderFlow.Application\obj\Debug\net9.0\OrderFlow.Application.dl
 C:\OrderFlow\src\OrderFlow.Application\obj\Debug\net9.0\refint\OrderFlow.Application.dll
 C:\OrderFlow\src\OrderFlow.Application\obj\Debug\net9.0\OrderFlow.Application.pdb
 C:\OrderFlow\src\OrderFlow.Application\obj\Debug\net9.0\ref\OrderFlow.Application.dll
+C:\OrderFlow\src\OrderFlow.Application\obj\Debug\net9.0\OrderFlow.Application.sourcelink.json
