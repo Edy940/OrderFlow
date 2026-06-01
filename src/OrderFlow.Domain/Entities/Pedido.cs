@@ -24,7 +24,7 @@ namespace OrderFlow.Domain.Entities
         {
             Id = Guid.NewGuid();
             Cliente = cliente;
-            Data = DateTime.Now;
+            Data = DateTime.UtcNow;
         }
 
         public void AdicionarItem(Produto produto, int quantidade)

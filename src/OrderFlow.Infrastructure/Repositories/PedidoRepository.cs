@@ -1,27 +1,40 @@
-﻿using OrderFlow.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
+using OrderFlow.Infrastructure.Data;
 
 namespace OrderFlow.Infrastructure.Repositories
 {
     public class PedidoRepository : IPedidoRepository
     {
-        private static readonly List<Pedido> _pedidos = new();
+        private readonly OrderFlowDbContext _context;
 
-        public Task AdicionarAsync(Pedido pedido)
+        public PedidoRepository(OrderFlowDbContext context)
         {
-            _pedidos.Add(pedido);
-            return Task.CompletedTask;
+            _context = context;
         }
 
-        public Task<Pedido> ObterPorIdAsync(Guid id)
+        public async Task AdicionarAsync(Pedido pedido)
         {
-            var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
-            return Task.FromResult(pedido);
+            await _context.Pedidos.AddAsync(pedido);
+
+            await _context.SaveChangesAsync();
         }
-        public Task SalvarAsync(Pedido pedido)
+
+        public async Task<IEnumerable<Pedido>> ObterTodosAsync()
         {
-            _pedidos.Add(pedido);
-            return Task.CompletedTask;
+            return await _context.Pedidos
+                .Include(p => p.Cliente)
+                .Include(p => p.Itens)
+                .ToListAsync();
+        }
+
+        public async Task<Pedido?> ObterPorIdAsync(Guid id)
+        {
+            return await _context.Pedidos
+                .Include(p => p.Cliente)
+                .Include(p => p.Itens)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }
