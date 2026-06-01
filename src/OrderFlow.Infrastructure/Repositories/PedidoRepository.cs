@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
 using OrderFlow.Infrastructure.Data;
@@ -17,7 +17,6 @@ namespace OrderFlow.Infrastructure.Repositories
         public async Task AdicionarAsync(Pedido pedido)
         {
             await _context.Pedidos.AddAsync(pedido);
-
             await _context.SaveChangesAsync();
         }
 
