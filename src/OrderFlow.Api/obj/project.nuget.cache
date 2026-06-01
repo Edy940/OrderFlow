@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "OtAoSb0VTKE=",
+  "dgSpecHash": "Gvy8bhq/qjo=",
   "success": true,
   "projectFilePath": "C:\\OrderFlow\\src\\OrderFlow.Api\\OrderFlow.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\edwan\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
+    "C:\\Users\\edwan\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\edwan\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\edwan\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\edwan\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.11\\microsoft.aspnetcore.openapi.9.0.11.nupkg.sha512",
     "C:\\Users\\edwan\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

@@ -1,4 +1,7 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using OrderFlow.Api.Validators;
 using OrderFlow.Application.Interfaces;
 using OrderFlow.Application.Services;
 using OrderFlow.Domain.Interfaces;
@@ -21,6 +24,8 @@ builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddValidatorsFromAssemblyContaining<CriarPedidoDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 
 builder.Services.AddDbContext<OrderFlowDbContext>(options =>
