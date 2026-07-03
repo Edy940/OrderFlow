@@ -13,7 +13,9 @@ namespace OrderFlow.Domain.Entities
         public Produto Produto { get; private set; }
         public int Quantidade { get; private set; }
         public decimal PrecoUnitario { get; private set; }
+        protected ItemPedido() { } // Construtor protegido para uso do Entity Framework ou outras ferramentas de ORM
         public ItemPedido(Produto produto, int quantidade, decimal precoUnitario)
+
         {
             if (quantidade <= 0)
                 throw new ArgumentException("A quantidade deve ser maior que zero.", nameof(quantidade));
