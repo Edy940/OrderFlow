@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using OrderFlow.Application.DTO;
 using OrderFlow.Application.Interfaces;
-using OrderFlow.Domain.Interfaces;
-using OrderFlow.Application.DTO;
 
 namespace OrderFlow.Api.Controllers
 {
@@ -12,40 +11,19 @@ namespace OrderFlow.Api.Controllers
     {
         private readonly IPedidoService _pedidoService;
         private readonly ILogger<PedidosController> _logger;
-        private readonly IPedidoRepository _pedidoRepository;
 
-        public PedidosController(
-             IPedidoService pedidoService,
-             IPedidoRepository pedidoRepository,
-             ILogger<PedidosController> logger)
+        public PedidosController(IPedidoService pedidoService, ILogger<PedidosController> logger)
         {
             _pedidoService = pedidoService;
-            _pedidoRepository = pedidoRepository;
             _logger = logger;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var pedido = await _pedidoRepository.ObterPorIdAsync(id);
-
-            if (pedido == null)
+            var response = await _pedidoService.ObterPorIdAsync(id);
+            if (response == null)
                 return NotFound("Pedido não encontrado.");
-
-            var response = new PedidoResponseDto
-            {
-                Id = pedido.Id,
-                Cliente = pedido.Cliente.Nome,
-                Data = pedido.Data,
-                Total = pedido.Itens.Sum(i => i.Quantidade * i.Produto.Preco),
-                Itens = pedido.Itens.Select(i => new ItemPedidoResponseDto
-                {
-                    Produto = i.Produto.Nome,
-                    Quantidade = i.Quantidade,
-                    PrecoUnitario = i.Produto.Preco,
-                    Subtotal = i.Quantidade * i.Produto.Preco
-                }).ToList()
-            };
 
             return Ok(response);
         }
@@ -53,22 +31,7 @@ namespace OrderFlow.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> ObterTodos()
         {
-            var pedidos = await _pedidoRepository.ObterTodosAsync();
-            var response = pedidos.Select(p => new PedidoResponseDto
-            {
-                Id = p.Id,
-                Cliente = p.Cliente.Nome,
-                Data = p.Data,
-                Total = p.Itens.Sum(i => i.Quantidade * i.Produto.Preco),
-                Itens = p.Itens.Select(i => new ItemPedidoResponseDto
-                {
-                    Produto = i.Produto.Nome,
-                    Quantidade = i.Quantidade,
-                    PrecoUnitario = i.Produto.Preco,
-                    Subtotal = i.Quantidade * i.Produto.Preco
-                }).ToList()
-            }).ToList();
-
+            var response = await _pedidoService.ObterTodosAsync();
             return Ok(response);
         }
 

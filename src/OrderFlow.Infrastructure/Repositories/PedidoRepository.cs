@@ -25,6 +25,7 @@ namespace OrderFlow.Infrastructure.Repositories
             return await _context.Pedidos
                 .Include(p => p.Cliente)
                 .Include(p => p.Itens)
+                .ThenInclude(i => i.Produto)
                 .ToListAsync();
         }
 
@@ -33,6 +34,7 @@ namespace OrderFlow.Infrastructure.Repositories
             return await _context.Pedidos
                 .Include(p => p.Cliente)
                 .Include(p => p.Itens)
+                 .ThenInclude(i => i.Produto)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
     }

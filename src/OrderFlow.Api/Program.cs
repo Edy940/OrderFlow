@@ -2,15 +2,18 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using OrderFlow.Api.Validators;
+using OrderFlow.Application.DTO;
 using OrderFlow.Application.Interfaces;
 using OrderFlow.Application.Services;
+using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
 using OrderFlow.Infrastructure.Data;
 using OrderFlow.Infrastructure.Repositories;
+using OrderFlow.Application.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configura Kestrel com portas explícitas (HTTP 5000 e HTTPS 5001)
+// Configura Kestrel com portas explï¿½citas (HTTP 5000 e HTTPS 5001)
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(5000); // HTTP
@@ -34,6 +37,7 @@ builder.Services.AddDbContext<OrderFlowDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(PedidoProfile));
 
 var app = builder.Build();
 
