@@ -8,6 +8,10 @@ namespace OrderFlow.Application.Mappings
     {
         public PedidoProfile()
         {
+            CreateMap<Cliente, ClienteResponseDto>()
+                .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+                
             CreateMap<Pedido, PedidoResponseDto>()
                 .ForMember(dest => dest.Cliente, opt => opt.MapFrom(src => src.Cliente.Nome))
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.ValorTotal));
