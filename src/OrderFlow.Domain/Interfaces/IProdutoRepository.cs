@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using OrderFlow.Domain.Entities;
+﻿using OrderFlow.Domain.Entities;
 
 namespace OrderFlow.Domain.Interfaces
 {

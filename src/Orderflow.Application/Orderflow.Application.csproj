@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrderFlow.Domain\OrderFlow.Domain.csproj" />
-    <ProjectReference Include="..\OrderFlow.Infrastructure\OrderFlow.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
