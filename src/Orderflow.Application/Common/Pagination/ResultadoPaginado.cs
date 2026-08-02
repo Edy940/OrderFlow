@@ -16,6 +16,11 @@ namespace OrderFlow.Application.Common.Pagination
 
         public ResultadoPaginado(IEnumerable<T> itens, int pagina, int tamanhoPagina, int totalItens)
         {
+            ArgumentNullException.ThrowIfNull(itens);
+            if (pagina < 1) throw new ArgumentOutOfRangeException(nameof(pagina));
+            if (tamanhoPagina < 1) throw new ArgumentOutOfRangeException(nameof(tamanhoPagina));
+            if (totalItens < 0) throw new ArgumentOutOfRangeException(nameof(totalItens));
+
             Itens = itens;
             Pagina = pagina;
             TamanhoPagina = tamanhoPagina;

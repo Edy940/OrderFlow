@@ -11,6 +11,6 @@ namespace OrderFlow.Application.Interfaces
     {
         Task CriarPedidoAsync(CriarPedidoDto dto);
         Task<PedidoResponseDto?> ObterPorIdAsync(Guid id);
-        Task<IEnumerable<PedidoResponseDto>> ObterTodosAsync();
+        Task<(IEnumerable<PedidoResponseDto> Itens, int TotalItens)> ObterPaginadoAsync(ConsultaPedidosDto consulta);
     }
 }
