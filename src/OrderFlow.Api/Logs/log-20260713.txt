@@ -1,0 +1,8 @@
+[2026-07-13 10:50:29 DBG] () Connection id "0HNN08KV8GDIG" accepted.
+[2026-07-13 10:50:29 DBG] () Connection id "0HNN08KV8GDIG" started.
+[2026-07-13 10:50:30 DBG] () Connection 0HNN08KV8GDIG established using the following protocol: "Tls13"
+[2026-07-13 10:51:47 DBG] () Connection id "0HNN08KV8GDIG" received FIN.
+[2026-07-13 10:51:47 DBG] () Connection id "0HNN08KV8GDIG" is closed. The last processed stream ID was 0.
+[2026-07-13 10:51:47 DBG] () The connection queue processing loop for 0HNN08KV8GDIG completed.
+[2026-07-13 10:51:47 DBG] () Connection id "0HNN08KV8GDIG" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-13 10:51:47 DBG] () Connection id "0HNN08KV8GDIG" stopped.

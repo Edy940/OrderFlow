@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderFlow.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,9 @@ namespace OrderFlow.Domain.Entities
         //Entidade que representa um pedido de compra, contendo informações sobre o cliente, data e os itens do pedido
         private readonly List<ItemPedido> _itens = new();
         public Guid Id { get; private set; }
-        public Cliente Cliente { get; private set; }
+        public Cliente Cliente { get; private set; } = null!;
         public DateTime Data { get; private set; }
+        public StatusPedido Status { get; private set; }
 
         // Agregação de itens ao pedido - um pedido pode ter vários itens, mas um item pertence a um único pedido
         public IReadOnlyCollection<ItemPedido> Itens => _itens;
@@ -25,6 +27,7 @@ namespace OrderFlow.Domain.Entities
             Id = Guid.NewGuid();
             Cliente = cliente;
             Data = DateTime.UtcNow;
+            Status = StatusPedido.Criado;
         }
 
         public void AdicionarItem(Produto produto, int quantidade)
@@ -32,7 +35,9 @@ namespace OrderFlow.Domain.Entities
             var itemPedido = new ItemPedido(produto, quantidade, produto.Preco);
             _itens.Add(itemPedido);
         }
+
     }
+
 
 }
 
