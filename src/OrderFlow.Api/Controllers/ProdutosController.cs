@@ -2,11 +2,13 @@
 using OrderFlow.Application.DTO;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
+using Asp.Versioning;
 
 namespace OrderFlow.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion(1.0)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProdutosController : ControllerBase
     {
         private readonly IProdutoRepository _produtoRepository;
@@ -24,6 +26,7 @@ namespace OrderFlow.Api.Controllers
         }
 
         [HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public async Task<IActionResult> CriarProduto([FromBody] ProdutoDto dto)
         {
             var produto = new Produto(dto.Nome, dto.Preco, dto.Estoque);

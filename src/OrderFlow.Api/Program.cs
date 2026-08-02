@@ -11,7 +11,15 @@ using OrderFlow.Infrastructure.Data;
 using OrderFlow.Infrastructure.Repositories;
 using OrderFlow.Application.Mappings;
 using Serilog;
-using CorrelationId;
+using OrderFlow.Api.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using OrderFlow.Infrastructure.Security;
+using System.Text;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using OrderFlow.Api.Configurations;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -25,21 +33,29 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog(Log.Logger);
 
-// Configura Kestrel com portas expl�citas (HTTP 5000 e HTTPS 5001)
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(5000); // HTTP
-    options.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps()); // HTTPS (usa dev cert)
-}
-
-);
-
 builder.Services.AddControllers();
+builder.Services.AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.AssumeDefaultVersionWhenUnspecified = false;
+        options.ReportApiVersions = true;
+        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+    })
+    .AddMvc()
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
 builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<ISenhaHasher, SenhaHasher>();
 builder.Services.AddValidatorsFromAssemblyContaining<CriarPedidoDtoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
@@ -49,23 +65,74 @@ builder.Services.AddDbContext<OrderFlowDbContext>(options =>
 );
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOptions<JwtSettings>()
+    .Bind(builder.Configuration.GetSection(JwtSettings.Secao))
+    .Validate(s => s.Chave.Length >= 32, "Jwt:Chave deve possuir pelo menos 32 caracteres.")
+    .Validate(s => !string.IsNullOrWhiteSpace(s.Emissor), "Jwt:Emissor é obrigatório.")
+    .Validate(s => !string.IsNullOrWhiteSpace(s.Audiencia), "Jwt:Audiencia é obrigatória.")
+    .ValidateOnStart();
+
+var jwtSettings = builder.Configuration.GetSection(JwtSettings.Secao).Get<JwtSettings>()
+    ?? throw new InvalidOperationException("Configuração JWT ausente.");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Chave)),
+            ValidateIssuer = true,
+            ValidIssuer = jwtSettings.Emissor,
+            ValidateAudience = true,
+            ValidAudience = jwtSettings.Audiencia,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromSeconds(30)
+        };
+    });
+builder.Services.AddAuthorization();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Informe o access token JWT."
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+        }] = Array.Empty<string>()
+    });
+});
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 builder.Services.AddAutoMapper(typeof(PedidoProfile));
 
 var app = builder.Build();
 
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+        foreach (var description in provider.ApiVersionDescriptions)
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+    });
 }
 
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

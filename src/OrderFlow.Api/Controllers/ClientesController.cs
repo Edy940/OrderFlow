@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Logging;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
+using Asp.Versioning;
 
 namespace OrderFlow.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion(1.0)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ClientesController : ControllerBase
     {
         private readonly IClienteRepository _clienteRepository;
@@ -25,8 +27,10 @@ namespace OrderFlow.Api.Controllers
             _logger.LogInformation("Clientes obtidos com sucesso.");
             return Ok(clientes);
         }
+        
 
         [HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public async Task<IActionResult> CriarCliente([FromBody] ClienteDto dto)
         {
             var cliente = new Cliente(dto.Nome, dto.Email);
@@ -38,6 +42,18 @@ namespace OrderFlow.Api.Controllers
             return Ok(cliente);
 
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
+            var cliente = await _clienteRepository.ObterPorIdAsync(id);
+            if (cliente == null)
+            {
+                _logger.LogWarning("Cliente não encontrado. ClienteId={ClienteId}", id);
+                return NotFound("Cliente não encontrado.");
+            }
 
+            _logger.LogInformation("Cliente obtido com sucesso. ClienteId={ClienteId}", id);
+            return Ok(cliente);
+        }
     }
 }

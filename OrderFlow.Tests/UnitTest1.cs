@@ -1,9 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
+using OrderFlow.Api.Controllers;
+using OrderFlow.Application.Common.Pagination;
 using OrderFlow.Application.DTO;
+using OrderFlow.Application.Interfaces;
 using OrderFlow.Application.Services;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
+using OrderFlow.Domain.Exceptions;
 using OrderFlow.Infrastructure.Repositories;
 
 namespace OrderFlow.Tests
@@ -73,7 +79,7 @@ namespace OrderFlow.Tests
 
             clienteRepositoryMock
                 .Setup(x => x.ObterPorIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((Cliente)null);
+                .ReturnsAsync((Cliente?)null);
 
             var service = new PedidoService(
                 clienteRepositoryMock.Object,
@@ -96,7 +102,53 @@ namespace OrderFlow.Tests
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => service.CriarPedidoAsync(dto));
+            await Assert.ThrowsAsync<RecursoNaoEncontradoException>(() => service.CriarPedidoAsync(dto));
+        }
+        [Fact]
+        public async Task ObterPaginado_DeveRetornarResultadoPaginado()
+        {
+            // Arrange
+            var serviceMock = new Mock<IPedidoService>();
+            var loggerMock = new Mock<ILogger<PedidosController>>();
+
+            var pedidos = new List<PedidoResponseDto>
+    {
+        new PedidoResponseDto(),
+        new PedidoResponseDto()
+    };
+
+            var parametros = new ConsultaPedidosDto
+            {
+                Pagina = 1,
+                TamanhoPagina = 10
+            };
+
+            serviceMock
+                .Setup(service => service.ObterPaginadoAsync(parametros))
+                .ReturnsAsync((pedidos, 25));
+
+            var controller = new PedidosController(
+                serviceMock.Object,
+                loggerMock.Object);
+
+            // Act
+            var resultado = await controller.ObterTodos(parametros);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(resultado);
+
+            var resposta = Assert.IsType<ResultadoPaginado<PedidoResponseDto>>(
+                okResult.Value);
+
+            Assert.Equal(2, resposta.Itens.Count());
+            Assert.Equal(25, resposta.TotalItens);
+            Assert.Equal(3, resposta.TotalPaginas);
+            Assert.Equal(1, resposta.Pagina);
+            Assert.Equal(10, resposta.TamanhoPagina);
+
+            serviceMock.Verify(
+                service => service.ObterPaginadoAsync(parametros),
+                Times.Once);
         }
     }
 
