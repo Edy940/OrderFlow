@@ -1,12 +1,10 @@
-﻿
-namespace OrderFlow.Application.DTO
+﻿namespace OrderFlow.Application.DTO;
+
+public class PedidoResponseDto
 {
-    public class PedidoResponseDto
-    {
-        public Guid Id { get; set; }
-        public string Cliente { get; set; }
-        public DateTime Data { get; set; }
-        public List<ItemPedidoResponseDto> Itens { get; set; } = new();
-        public decimal Total { get; set; }
-    }
+    public Guid Id { get; init; }
+    public string Cliente { get; init; } = string.Empty;
+    public DateTime Data { get; init; }
+    public List<ItemPedidoResponseDto> Itens { get; init; } = [];
+    public decimal Total { get; init; }
 }

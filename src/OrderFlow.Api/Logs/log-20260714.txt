@@ -1,0 +1,61 @@
+[2026-07-14 11:07:58 DBG] () Connection id "0HNN08KV8GDIH" accepted.
+[2026-07-14 11:07:58 DBG] () Connection id "0HNN08KV8GDIH" started.
+[2026-07-14 11:07:58 DBG] () Connection 0HNN08KV8GDIH established using the following protocol: "Tls13"
+[2026-07-14 11:08:59 DBG] () Connection id "0HNN08KV8GDIH" received FIN.
+[2026-07-14 11:08:59 DBG] () Connection id "0HNN08KV8GDIH" is closed. The last processed stream ID was 0.
+[2026-07-14 11:08:59 DBG] () The connection queue processing loop for 0HNN08KV8GDIH completed.
+[2026-07-14 11:08:59 DBG] () Connection id "0HNN08KV8GDIH" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-14 11:08:59 DBG] () Connection id "0HNN08KV8GDIH" stopped.
+[2026-07-14 11:18:55 DBG] () Connection id "0HNN08KV8GDII" accepted.
+[2026-07-14 11:18:55 DBG] () Connection id "0HNN08KV8GDII" started.
+[2026-07-14 11:18:55 DBG] () Connection 0HNN08KV8GDII established using the following protocol: "Tls13"
+[2026-07-14 11:19:58 DBG] () Connection id "0HNN08KV8GDII" received FIN.
+[2026-07-14 11:19:58 DBG] () Connection id "0HNN08KV8GDII" is closed. The last processed stream ID was 0.
+[2026-07-14 11:19:58 DBG] () The connection queue processing loop for 0HNN08KV8GDII completed.
+[2026-07-14 11:19:58 DBG] () Connection id "0HNN08KV8GDII" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-14 11:19:58 DBG] () Connection id "0HNN08KV8GDII" stopped.
+[2026-07-14 20:13:55 DBG] () Connection id "0HNN08KV8GDIJ" accepted.
+[2026-07-14 20:13:55 DBG] () Connection id "0HNN08KV8GDIJ" started.
+[2026-07-14 20:13:55 DBG] () Connection id "0HNN08KV8GDIK" accepted.
+[2026-07-14 20:13:56 DBG] () Connection id "0HNN08KV8GDIK" started.
+[2026-07-14 20:13:56 DBG] () Connection 0HNN08KV8GDIJ established using the following protocol: "Tls13"
+[2026-07-14 20:13:56 DBG] () Connection 0HNN08KV8GDIK established using the following protocol: "Tls13"
+[2026-07-14 20:13:56 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/index.html - null null
+[2026-07-14 20:13:56 DBG] () No candidates found for the request path '/swagger/index.html'
+[2026-07-14 20:13:56 DBG] () Request did not match any endpoints
+[2026-07-14 20:13:56 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 385.4967ms
+[2026-07-14 20:13:57 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui.css - null null
+[2026-07-14 20:13:57 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui-bundle.js - null null
+[2026-07-14 20:13:57 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui-standalone-preset.js - null null
+[2026-07-14 20:13:57 DBG] () No candidates found for the request path '/swagger/swagger-ui.css'
+[2026-07-14 20:13:57 DBG] () No candidates found for the request path '/swagger/swagger-ui-bundle.js'
+[2026-07-14 20:13:57 DBG] () No candidates found for the request path '/swagger/swagger-ui-standalone-preset.js'
+[2026-07-14 20:13:57 DBG] () Request did not match any endpoints
+[2026-07-14 20:13:57 DBG] () Request did not match any endpoints
+[2026-07-14 20:13:57 DBG] () Request did not match any endpoints
+[2026-07-14 20:13:57 INF] () Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+[2026-07-14 20:13:57 INF] () Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+[2026-07-14 20:13:57 INF] () Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+[2026-07-14 20:13:57 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui-standalone-preset.js - 200 312163 text/javascript 862.3647ms
+[2026-07-14 20:13:58 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui.css - 200 144929 text/css 936.7121ms
+[2026-07-14 20:13:58 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui-bundle.js - 200 1061536 text/javascript 1004.1841ms
+[2026-07-14 20:13:59 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - null null
+[2026-07-14 20:13:59 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/favicon-32x32.png - null null
+[2026-07-14 20:13:59 DBG] () No candidates found for the request path '/swagger/v1/swagger.json'
+[2026-07-14 20:13:59 DBG] () No candidates found for the request path '/swagger/favicon-32x32.png'
+[2026-07-14 20:13:59 DBG] () Request did not match any endpoints
+[2026-07-14 20:13:59 DBG] () Request did not match any endpoints
+[2026-07-14 20:13:59 INF] () Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+[2026-07-14 20:13:59 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/favicon-32x32.png - 200 628 image/png 190.7246ms
+[2026-07-14 20:13:59 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 345.0683ms
+[2026-07-14 20:15:07 DBG] () Connection id "0HNN08KV8GDIK" received FIN.
+[2026-07-14 20:15:07 DBG] () Connection id "0HNN08KV8GDIK" is closed. The last processed stream ID was 0.
+[2026-07-14 20:15:07 DBG] () The connection queue processing loop for 0HNN08KV8GDIK completed.
+[2026-07-14 20:15:07 DBG] () Connection id "0HNN08KV8GDIK" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-14 20:15:08 DBG] () Connection id "0HNN08KV8GDIK" stopped.
+[2026-07-14 20:16:12 DBG] () Connection id "0HNN08KV8GDIJ" is closing.
+[2026-07-14 20:16:12 DBG] () Connection id "0HNN08KV8GDIJ" is closed. The last processed stream ID was 11.
+[2026-07-14 20:16:12 DBG] () Connection id "0HNN08KV8GDIJ" received FIN.
+[2026-07-14 20:16:12 DBG] () Connection id "0HNN08KV8GDIJ" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-14 20:16:12 DBG] () The connection queue processing loop for 0HNN08KV8GDIJ completed.
+[2026-07-14 20:16:12 DBG] () Connection id "0HNN08KV8GDIJ" stopped.

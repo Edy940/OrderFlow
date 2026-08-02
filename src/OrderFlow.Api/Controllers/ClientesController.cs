@@ -1,35 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Domain.Interfaces;
+using Asp.Versioning;
 
 namespace OrderFlow.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion(1.0)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ClientesController : ControllerBase
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly ILogger<ClientesController> _logger;
 
-        public ClientesController(IClienteRepository clienteRepository)
+        public ClientesController(IClienteRepository clienteRepository, ILogger<ClientesController> logger)
         {
             _clienteRepository = clienteRepository;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> ObterTodos()
         {
             var clientes = await _clienteRepository.ObterTodosAsync();
+            _logger.LogInformation("Clientes obtidos com sucesso.");
             return Ok(clientes);
         }
+        
 
         [HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize]
         public async Task<IActionResult> CriarCliente([FromBody] ClienteDto dto)
         {
             var cliente = new Cliente(dto.Nome, dto.Email);
             await _clienteRepository.AdicionarAsync(cliente);
+            _logger.LogInformation(
+             "Cliente criado com sucesso. ClienteId={ClienteId}, Email={Email}",
+            cliente.Id,
+             cliente.Email);
             return Ok(cliente);
 
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
+            var cliente = await _clienteRepository.ObterPorIdAsync(id);
+            if (cliente == null)
+            {
+                _logger.LogWarning("Cliente não encontrado. ClienteId={ClienteId}", id);
+                return NotFound("Cliente não encontrado.");
+            }
 
+            _logger.LogInformation("Cliente obtido com sucesso. ClienteId={ClienteId}", id);
+            return Ok(cliente);
+        }
     }
 }

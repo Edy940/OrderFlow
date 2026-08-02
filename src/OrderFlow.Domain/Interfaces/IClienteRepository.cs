@@ -5,7 +5,7 @@ namespace OrderFlow.Domain.Interfaces
 {
     public interface IClienteRepository
     {
-        Task<Cliente> ObterPorIdAsync(Guid id);
+        Task<Cliente?> ObterPorIdAsync(Guid id);
         Task AdicionarAsync(Cliente cliente);
         Task<IEnumerable<Cliente>> ObterTodosAsync();
     }

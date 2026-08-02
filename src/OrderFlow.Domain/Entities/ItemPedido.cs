@@ -10,7 +10,7 @@ namespace OrderFlow.Domain.Entities
     public class ItemPedido
     {
         public Guid Id { get; private set; }
-        public Produto Produto { get; private set; }
+        public Produto Produto { get; private set; } = null!;
         public int Quantidade { get; private set; }
         public decimal PrecoUnitario { get; private set; }
         protected ItemPedido() { } // Construtor protegido para uso do Entity Framework ou outras ferramentas de ORM

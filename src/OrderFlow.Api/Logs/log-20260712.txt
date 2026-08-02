@@ -1,0 +1,501 @@
+[2026-07-12 03:03:24 DBG] () Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+[2026-07-12 03:03:24 DBG] () Hosting starting
+[2026-07-12 03:03:25 DBG] () Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+[2026-07-12 03:03:25 DBG] () Wildcard detected, all requests with hosts will be allowed.
+[2026-07-12 03:03:25 WRN] () Overriding address(es) 'http://localhost:5186'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+[2026-07-12 03:03:25 INF] () Now listening on: http://[::]:5000
+[2026-07-12 03:03:25 INF] () Now listening on: https://[::]:5001
+[2026-07-12 03:03:25 DBG] () Loaded hosting startup assembly OrderFlow.Api
+[2026-07-12 03:03:25 INF] () Application started. Press Ctrl+C to shut down.
+[2026-07-12 03:03:25 INF] () Hosting environment: Development
+[2026-07-12 03:03:25 INF] () Content root path: C:\OrderFlow\src\OrderFlow.Api
+[2026-07-12 03:03:25 DBG] () Hosting started
+[2026-07-12 03:04:13 DBG] () Connection id "0HNMVRDIVMAG0" accepted.
+[2026-07-12 03:04:13 DBG] () Connection id "0HNMVRDIVMAG0" started.
+[2026-07-12 03:04:13 DBG] () Connection id "0HNMVRDIVMAG1" accepted.
+[2026-07-12 03:04:13 DBG] () Connection id "0HNMVRDIVMAG1" started.
+[2026-07-12 03:04:13 INF] () Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - null null
+[2026-07-12 03:04:13 DBG] () No candidates found for the request path '/swagger/index.html'
+[2026-07-12 03:04:13 DBG] () Request did not match any endpoints
+[2026-07-12 03:04:14 DBG] () Connection id "0HNMVRDIVMAG0" completed keep alive response.
+[2026-07-12 03:04:14 INF] () Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - 200 null text/html;charset=utf-8 599.1105ms
+[2026-07-12 03:04:14 INF] () Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - null null
+[2026-07-12 03:04:14 DBG] () No candidates found for the request path '/swagger/v1/swagger.json'
+[2026-07-12 03:04:14 DBG] () Request did not match any endpoints
+[2026-07-12 03:04:14 DBG] () Executing API description provider 'EndpointMetadataApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v9.0.0.0.
+[2026-07-12 03:04:14 DBG] () Executing API description provider 'DefaultApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v9.0.0.0.
+[2026-07-12 03:04:15 DBG] () Connection id "0HNMVRDIVMAG0" completed keep alive response.
+[2026-07-12 03:04:15 INF] () Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 409.0188ms
+[2026-07-12 03:04:52 INF] () Request starting HTTP/1.1 POST http://localhost:5000/api/Clientes - application/json 61
+[2026-07-12 03:04:52 DBG] () 1 candidate(s) found for the request path '/api/Clientes'
+[2026-07-12 03:04:53 DBG] () Endpoint 'OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api)' with route pattern 'api/Clientes' is valid for the request path '/api/Clientes'
+[2026-07-12 03:04:53 DBG] () Request matched endpoint 'OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api)'
+[2026-07-12 03:04:53 DBG] () Static files was skipped as the request already matched an endpoint.
+[2026-07-12 03:04:53 DBG] () Https port '5001' discovered from server endpoints.
+[2026-07-12 03:04:53 DBG] () Redirecting to 'https://localhost:5001/api/Clientes'.
+[2026-07-12 03:04:53 INF] () HTTP POST /api/Clientes responded 307 in 28.2954 ms
+[2026-07-12 03:04:53 DBG] () Connection id "0HNMVRDIVMAG0" completed keep alive response.
+[2026-07-12 03:04:53 DBG] () Connection id "0HNMVRDIVMAG2" accepted.
+[2026-07-12 03:04:53 INF] () Request finished HTTP/1.1 POST http://localhost:5000/api/Clientes - 307 0 null 170.5635ms
+[2026-07-12 03:04:53 DBG] () Connection id "0HNMVRDIVMAG2" started.
+[2026-07-12 03:04:53 DBG] () Connection id "0HNMVRDIVMAG0", Request id "0HNMVRDIVMAG0:00000003": started reading request body.
+[2026-07-12 03:04:53 DBG] () Connection id "0HNMVRDIVMAG0", Request id "0HNMVRDIVMAG0:00000003": done reading request body.
+[2026-07-12 03:04:53 DBG] () Connection 0HNMVRDIVMAG2 established using the following protocol: "Tls13"
+[2026-07-12 03:04:53 INF] () Request starting HTTP/2 OPTIONS https://localhost:5001/api/Clientes - null null
+[2026-07-12 03:04:53 DBG] () 1 candidate(s) found for the request path '/api/Clientes'
+[2026-07-12 03:04:53 DBG] () Request matched endpoint '405 HTTP Method Not Supported'
+[2026-07-12 03:04:53 DBG] () Static files was skipped as the request already matched an endpoint.
+[2026-07-12 03:04:53 INF] () Executing endpoint '405 HTTP Method Not Supported'
+[2026-07-12 03:04:53 INF] () Executed endpoint '405 HTTP Method Not Supported'
+[2026-07-12 03:04:53 INF] () HTTP OPTIONS /api/Clientes responded 405 in 25.5516 ms
+[2026-07-12 03:04:53 INF] () Request finished HTTP/2 OPTIONS https://localhost:5001/api/Clientes - 405 0 null 93.5682ms
+[2026-07-12 03:06:24 DBG] () Connection id "0HNMVRDIVMAG1" disconnecting.
+[2026-07-12 03:06:24 DBG] () Connection id "0HNMVRDIVMAG1" stopped.
+[2026-07-12 03:06:24 DBG] () Connection id "0HNMVRDIVMAG1" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:06:42 DBG] () Connection id "0HNMVRDIVMAG3" accepted.
+[2026-07-12 03:06:42 DBG] () Connection id "0HNMVRDIVMAG3" started.
+[2026-07-12 03:06:42 DBG] () Connection 0HNMVRDIVMAG3 established using the following protocol: "Tls13"
+[2026-07-12 03:06:43 INF] () Request starting HTTP/2 GET https://localhost:5001/favicon.ico - null null
+[2026-07-12 03:06:43 DBG] () No candidates found for the request path '/favicon.ico'
+[2026-07-12 03:06:43 DBG] () Request did not match any endpoints
+[2026-07-12 03:06:43 DBG] () The request path  does not match the path filter
+[2026-07-12 03:06:43 INF] () HTTP GET /favicon.ico responded 404 in 1.0298 ms
+[2026-07-12 03:06:43 INF] () Request finished HTTP/2 GET https://localhost:5001/favicon.ico - 404 0 null 522.6807ms
+[2026-07-12 03:06:44 INF] () Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:5001/favicon.ico, Response status code: 404
+[2026-07-12 03:07:03 DBG] () Connection id "0HNMVRDIVMAG0" disconnecting.
+[2026-07-12 03:07:03 DBG] () Connection id "0HNMVRDIVMAG0" stopped.
+[2026-07-12 03:07:03 DBG] () Connection id "0HNMVRDIVMAG0" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:07:04 DBG] () Connection id "0HNMVRDIVMAG2" is closing.
+[2026-07-12 03:07:04 DBG] () Connection id "0HNMVRDIVMAG2" is closed. The last processed stream ID was 1.
+[2026-07-12 03:07:04 DBG] () Connection id "0HNMVRDIVMAG2" received FIN.
+[2026-07-12 03:07:04 DBG] () The connection queue processing loop for 0HNMVRDIVMAG2 completed.
+[2026-07-12 03:07:04 DBG] () Connection id "0HNMVRDIVMAG2" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:07:04 DBG] () Connection id "0HNMVRDIVMAG2" stopped.
+[2026-07-12 03:08:46 DBG] () Connection id "0HNMVRDIVMAG4" accepted.
+[2026-07-12 03:08:46 DBG] () Connection id "0HNMVRDIVMAG4" started.
+[2026-07-12 03:08:46 DBG] () Connection id "0HNMVRDIVMAG5" accepted.
+[2026-07-12 03:08:46 DBG] () Failed to authenticate HTTPS connection.
+System.Security.Authentication.AuthenticationException: Cannot determine the frame size or a corrupted frame was received.
+   at System.Net.Security.SslStream.GetFrameSize(ReadOnlySpan`1 buffer)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+[2026-07-12 03:08:46 DBG] () Connection id "0HNMVRDIVMAG5" started.
+[2026-07-12 03:08:46 DBG] () Connection id "0HNMVRDIVMAG4" stopped.
+[2026-07-12 03:08:46 DBG] () Connection id "0HNMVRDIVMAG4" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:08:47 DBG] () Failed to authenticate HTTPS connection.
+System.Security.Authentication.AuthenticationException: Cannot determine the frame size or a corrupted frame was received.
+   at System.Net.Security.SslStream.GetFrameSize(ReadOnlySpan`1 buffer)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+[2026-07-12 03:08:47 DBG] () Connection id "0HNMVRDIVMAG6" accepted.
+[2026-07-12 03:08:47 DBG] () Connection id "0HNMVRDIVMAG5" stopped.
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG6" started.
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG5" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:08:48 DBG] () Failed to authenticate HTTPS connection.
+System.Security.Authentication.AuthenticationException: Cannot determine the frame size or a corrupted frame was received.
+   at System.Net.Security.SslStream.GetFrameSize(ReadOnlySpan`1 buffer)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG6" stopped.
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG6" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG7" accepted.
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG7" started.
+[2026-07-12 03:08:48 DBG] () Failed to authenticate HTTPS connection.
+System.Security.Authentication.AuthenticationException: Cannot determine the frame size or a corrupted frame was received.
+   at System.Net.Security.SslStream.GetFrameSize(ReadOnlySpan`1 buffer)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG7" stopped.
+[2026-07-12 03:08:48 DBG] () Connection id "0HNMVRDIVMAG7" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:08:53 DBG] () Connection id "0HNMVRDIVMAG8" accepted.
+[2026-07-12 03:08:53 DBG] () Connection id "0HNMVRDIVMAG8" started.
+[2026-07-12 03:08:53 DBG] () Connection id "0HNMVRDIVMAG9" accepted.
+[2026-07-12 03:08:53 DBG] () Failed to authenticate HTTPS connection.
+System.Security.Authentication.AuthenticationException: Cannot determine the frame size or a corrupted frame was received.
+   at System.Net.Security.SslStream.GetFrameSize(ReadOnlySpan`1 buffer)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+[2026-07-12 03:08:53 DBG] () Connection id "0HNMVRDIVMAG9" started.
+[2026-07-12 03:08:53 DBG] () Connection id "0HNMVRDIVMAG8" stopped.
+[2026-07-12 03:08:53 DBG] () Connection id "0HNMVRDIVMAG8" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:08:56 DBG] () Connection id "0HNMVRDIVMAG3" is closing.
+[2026-07-12 03:08:56 DBG] () Connection id "0HNMVRDIVMAG3" is closed. The last processed stream ID was 1.
+[2026-07-12 03:08:56 DBG] () The connection queue processing loop for 0HNMVRDIVMAG3 completed.
+[2026-07-12 03:08:56 DBG] () Connection id "0HNMVRDIVMAG3" received FIN.
+[2026-07-12 03:08:56 DBG] () Connection id "0HNMVRDIVMAG3" stopped.
+[2026-07-12 03:08:56 DBG] () Connection id "0HNMVRDIVMAG3" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:09:01 DBG] () Connection id "0HNMVRDIVMAGA" accepted.
+[2026-07-12 03:09:01 DBG] () Connection id "0HNMVRDIVMAGA" started.
+[2026-07-12 03:09:01 DBG] () Connection 0HNMVRDIVMAGA established using the following protocol: "Tls13"
+[2026-07-12 03:09:01 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger - null null
+[2026-07-12 03:09:01 DBG] () No candidates found for the request path '/swagger'
+[2026-07-12 03:09:01 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:01 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger - 301 0 null 52.2523ms
+[2026-07-12 03:09:01 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/index.html - null null
+[2026-07-12 03:09:01 DBG] () No candidates found for the request path '/swagger/index.html'
+[2026-07-12 03:09:01 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:01 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 75.6504ms
+[2026-07-12 03:09:01 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui.css - null null
+[2026-07-12 03:09:01 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui-bundle.js - null null
+[2026-07-12 03:09:01 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui-standalone-preset.js - null null
+[2026-07-12 03:09:01 DBG] () No candidates found for the request path '/swagger/swagger-ui.css'
+[2026-07-12 03:09:01 DBG] () No candidates found for the request path '/swagger/swagger-ui-bundle.js'
+[2026-07-12 03:09:01 DBG] () No candidates found for the request path '/swagger/swagger-ui-standalone-preset.js'
+[2026-07-12 03:09:01 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:01 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:01 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:01 INF] () Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+[2026-07-12 03:09:01 INF] () Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+[2026-07-12 03:09:01 INF] () Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+[2026-07-12 03:09:01 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui.css - 200 144929 text/css 308.1864ms
+[2026-07-12 03:09:01 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui-standalone-preset.js - 200 312163 text/javascript 330.4212ms
+[2026-07-12 03:09:01 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui-bundle.js - 200 1061536 text/javascript 346.7693ms
+[2026-07-12 03:09:03 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - null null
+[2026-07-12 03:09:03 DBG] () No candidates found for the request path '/swagger/v1/swagger.json'
+[2026-07-12 03:09:03 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:03 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/favicon-32x32.png - null null
+[2026-07-12 03:09:03 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 98.0957ms
+[2026-07-12 03:09:03 DBG] () No candidates found for the request path '/swagger/favicon-32x32.png'
+[2026-07-12 03:09:03 DBG] () Request did not match any endpoints
+[2026-07-12 03:09:03 INF] () Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+[2026-07-12 03:09:03 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/favicon-32x32.png - 200 628 image/png 307.7826ms
+[2026-07-12 03:09:03 DBG] () Authentication of the HTTPS connection timed out.
+[2026-07-12 03:09:03 DBG] () Connection id "0HNMVRDIVMAG9" stopped.
+[2026-07-12 03:09:03 DBG] () Connection id "0HNMVRDIVMAG9" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:09:46 INF] () Request starting HTTP/2 POST https://localhost:5001/api/Clientes - application/json 56
+[2026-07-12 03:09:46 DBG] () 1 candidate(s) found for the request path '/api/Clientes'
+[2026-07-12 03:09:46 DBG] () Endpoint 'OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api)' with route pattern 'api/Clientes' is valid for the request path '/api/Clientes'
+[2026-07-12 03:09:46 DBG] () Request matched endpoint 'OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api)'
+[2026-07-12 03:09:46 DBG] () Static files was skipped as the request already matched an endpoint.
+[2026-07-12 03:09:46 INF] () Executing endpoint 'OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api)'
+[2026-07-12 03:09:47 INF] () Route matched with {action = "CriarCliente", controller = "Clientes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CriarCliente(ClienteDto) on controller OrderFlow.Api.Controllers.ClientesController (OrderFlow.Api).
+[2026-07-12 03:09:47 DBG] () Execution plan of authorization filters (in the following order): ["None"]
+[2026-07-12 03:09:47 DBG] () Execution plan of resource filters (in the following order): ["None"]
+[2026-07-12 03:09:47 DBG] () Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+[2026-07-12 03:09:47 DBG] () Execution plan of exception filters (in the following order): ["None"]
+[2026-07-12 03:09:47 DBG] () Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+[2026-07-12 03:09:47 DBG] () Executing controller factory for controller OrderFlow.Api.Controllers.ClientesController (OrderFlow.Api)
+[2026-07-12 03:09:47 DBG] () An 'IServiceProvider' was created for internal use by Entity Framework.
+[2026-07-12 03:09:47 DBG] () Executed controller factory for controller OrderFlow.Api.Controllers.ClientesController (OrderFlow.Api)
+[2026-07-12 03:09:47 DBG] () Attempting to bind parameter 'dto' of type 'ClienteDto' ...
+[2026-07-12 03:09:47 DBG] () Attempting to bind parameter 'dto' of type 'ClienteDto' using the name '' in request data ...
+[2026-07-12 03:09:47 DBG] () Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+[2026-07-12 03:09:47 DBG] () Connection id "0HNMVRDIVMAGA", Request id "0HNMVRDIVMAGA:0000000F": started reading request body.
+[2026-07-12 03:09:47 DBG] () Connection id "0HNMVRDIVMAGA", Request id "0HNMVRDIVMAGA:0000000F": done reading request body.
+[2026-07-12 03:09:47 DBG] () JSON input formatter succeeded, deserializing to type 'ClienteDto'
+[2026-07-12 03:09:47 DBG] () Done attempting to bind parameter 'dto' of type 'ClienteDto'.
+[2026-07-12 03:09:47 DBG] () Done attempting to bind parameter 'dto' of type 'ClienteDto'.
+[2026-07-12 03:09:47 DBG] () Attempting to validate the bound parameter 'dto' of type 'ClienteDto' ...
+[2026-07-12 03:09:47 DBG] () Done attempting to validate the bound parameter 'dto' of type 'ClienteDto'.
+[2026-07-12 03:09:49 DBG] () The property 'ItemPedido.PedidoId' was created in shadow state because there are no eligible CLR members with a matching name.
+[2026-07-12 03:09:49 DBG] () The property 'ItemPedido.ProdutoId' was created in shadow state because there are no eligible CLR members with a matching name.
+[2026-07-12 03:09:49 DBG] () The property 'Pedido.ClienteId' was created in shadow state because there are no eligible CLR members with a matching name.
+[2026-07-12 03:09:49 DBG] () Entity Framework Core 9.0.0 initialized 'OrderFlowDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:9.0.0+f07040d3e35e2a228486f3ee9633784aa196a2c3' with options: None
+[2026-07-12 03:09:49 DBG] () Context 'OrderFlowDbContext' started tracking 'Cliente' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2026-07-12 03:09:49 DBG] () SaveChanges starting for 'OrderFlowDbContext'.
+[2026-07-12 03:09:49 DBG] () DetectChanges starting for 'OrderFlowDbContext'.
+[2026-07-12 03:09:49 DBG] () DetectChanges completed for 'OrderFlowDbContext'.
+[2026-07-12 03:09:50 DBG] () Creating DbConnection.
+[2026-07-12 03:09:50 DBG] () Created DbConnection. (85ms).
+[2026-07-12 03:09:50 DBG] () Opening connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:09:50 DBG] () Opened connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:09:50 DBG] () Creating DbCommand for 'ExecuteReader'.
+[2026-07-12 03:09:50 DBG] () Created DbCommand for 'ExecuteReader' (15ms).
+[2026-07-12 03:09:50 DBG] () Initialized DbCommand for 'ExecuteReader' (39ms).
+[2026-07-12 03:09:50 DBG] () Executing DbCommand [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Clientes" ("Id", "Email", "Nome")
+VALUES (@p0, @p1, @p2);
+[2026-07-12 03:09:51 INF] () Executed DbCommand (193ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Clientes" ("Id", "Email", "Nome")
+VALUES (@p0, @p1, @p2);
+[2026-07-12 03:09:51 DBG] () Closing data reader to 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:09:51 DBG] () A data reader for 'orderflow' on server 'tcp://localhost:5432' is being disposed after spending 26ms reading results.
+[2026-07-12 03:09:51 DBG] () Closing connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:09:51 DBG] () Closed connection to database 'orderflow' on server 'tcp://localhost:5432' (17ms).
+[2026-07-12 03:09:51 DBG] () An entity of type 'Cliente' tracked by 'OrderFlowDbContext' changed state from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2026-07-12 03:09:51 DBG] () SaveChanges completed for 'OrderFlowDbContext' with 1 entities written to the database.
+[2026-07-12 03:09:51 INF] () Cliente criado com sucesso. ClienteId="8ae3093c-aa3a-41b1-9de8-11e4c7176c40", Email=jose@gmail.com
+[2026-07-12 03:09:51 DBG] () List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+[2026-07-12 03:09:51 DBG] () No information found on request to perform content negotiation.
+[2026-07-12 03:09:51 DBG] () Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+[2026-07-12 03:09:51 DBG] () Attempting to select the first formatter in the output formatters list which can write the result.
+[2026-07-12 03:09:51 DBG] () Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+[2026-07-12 03:09:51 INF] () Executing OkObjectResult, writing value of type 'OrderFlow.Domain.Entities.Cliente'.
+[2026-07-12 03:09:51 INF] () Executed action OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api) in 4270.704ms
+[2026-07-12 03:09:51 INF] () Executed endpoint 'OrderFlow.Api.Controllers.ClientesController.CriarCliente (OrderFlow.Api)'
+[2026-07-12 03:09:51 INF] () HTTP POST /api/Clientes responded 200 in 4423.9747 ms
+[2026-07-12 03:09:51 DBG] () 'OrderFlowDbContext' disposed.
+[2026-07-12 03:09:51 DBG] () Disposing connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:09:51 DBG] () Disposed connection to database 'orderflow' on server 'tcp://localhost:5432' (11ms).
+[2026-07-12 03:09:51 INF] () Request finished HTTP/2 POST https://localhost:5001/api/Clientes - 200 null application/json; charset=utf-8 4515.6282ms
+[2026-07-12 03:10:25 INF] () Request starting HTTP/2 GET https://localhost:5001/api/Clientes - null null
+[2026-07-12 03:10:25 DBG] () 1 candidate(s) found for the request path '/api/Clientes'
+[2026-07-12 03:10:25 DBG] () Endpoint 'OrderFlow.Api.Controllers.ClientesController.ObterTodos (OrderFlow.Api)' with route pattern 'api/Clientes' is valid for the request path '/api/Clientes'
+[2026-07-12 03:10:25 DBG] () Request matched endpoint 'OrderFlow.Api.Controllers.ClientesController.ObterTodos (OrderFlow.Api)'
+[2026-07-12 03:10:25 DBG] () Static files was skipped as the request already matched an endpoint.
+[2026-07-12 03:10:25 INF] () Executing endpoint 'OrderFlow.Api.Controllers.ClientesController.ObterTodos (OrderFlow.Api)'
+[2026-07-12 03:10:25 INF] () Route matched with {action = "ObterTodos", controller = "Clientes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ObterTodos() on controller OrderFlow.Api.Controllers.ClientesController (OrderFlow.Api).
+[2026-07-12 03:10:25 DBG] () Execution plan of authorization filters (in the following order): ["None"]
+[2026-07-12 03:10:25 DBG] () Execution plan of resource filters (in the following order): ["None"]
+[2026-07-12 03:10:25 DBG] () Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+[2026-07-12 03:10:25 DBG] () Execution plan of exception filters (in the following order): ["None"]
+[2026-07-12 03:10:25 DBG] () Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+[2026-07-12 03:10:25 DBG] () Executing controller factory for controller OrderFlow.Api.Controllers.ClientesController (OrderFlow.Api)
+[2026-07-12 03:10:25 DBG] () Executed controller factory for controller OrderFlow.Api.Controllers.ClientesController (OrderFlow.Api)
+[2026-07-12 03:10:25 DBG] () Entity Framework Core 9.0.0 initialized 'OrderFlowDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:9.0.0+f07040d3e35e2a228486f3ee9633784aa196a2c3' with options: None
+[2026-07-12 03:10:25 DBG] () Compiling query expression: 
+'DbSet<Cliente>()'
+[2026-07-12 03:10:26 DBG] () Generated query execution expression: 
+'queryContext => SingleQueryingEnumerable.Create<Cliente>(
+    relationalQueryContext: (RelationalQueryContext)queryContext, 
+    relationalCommandResolver: parameters => [LIFTABLE Constant: RelationalCommandCache.QueryExpression(
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Cliente.Id (Guid) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: Cliente.Email (string) Required, 1], [Property: Cliente.Nome (string) Required, 2] }
+        SELECT c.Id, c.Email, c.Nome
+        FROM Clientes AS c) | Resolver: c => new RelationalCommandCache(
+        c.Dependencies.MemoryCache, 
+        c.RelationalDependencies.QuerySqlGeneratorFactory, 
+        c.RelationalDependencies.RelationalParameterBasedSqlProcessorFactory, 
+        Projection Mapping:
+            EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Cliente.Id (Guid) Required PK AfterSave:Throw ValueGenerated.OnAdd, 0], [Property: Cliente.Email (string) Required, 1], [Property: Cliente.Nome (string) Required, 2] }
+        SELECT c.Id, c.Email, c.Nome
+        FROM Clientes AS c, 
+        False, 
+        new HashSet<string>(
+            new string[]{ }, 
+            StringComparer.Ordinal
+        )
+    )].GetRelationalCommandTemplate(parameters), 
+    readerColumns: null, 
+    shaper: (queryContext, dataReader, resultContext, resultCoordinator) => 
+    {
+        Cliente entity;
+        entity = 
+        {
+            MaterializationContext materializationContext1;
+            IEntityType entityType1;
+            Cliente instance1;
+            InternalEntityEntry entry1;
+            bool hasNullKey1;
+            materializationContext1 = new MaterializationContext(
+                [LIFTABLE Constant: ValueBuffer | Resolver: _ => (object)ValueBuffer.Empty], 
+                queryContext.Context
+            );
+            instance1 = default(Cliente);
+            entry1 = queryContext.TryGetEntry(
+                key: [LIFTABLE Constant: Key: Cliente.Id PK | Resolver: c => c.Dependencies.Model.FindEntityType("OrderFlow.Domain.Entities.Cliente").FindPrimaryKey()], 
+                keyValues: new object[]{ (object)dataReader.GetGuid(0) }, 
+                throwOnNullKey: True, 
+                hasNullKey: hasNullKey1);
+            !(hasNullKey1) ? entry1 != default(InternalEntityEntry) ? 
+            {
+                entityType1 = entry1.EntityType;
+                return instance1 = (Cliente)entry1.Entity;
+            } : 
+            {
+                ISnapshot shadowSnapshot1;
+                shadowSnapshot1 = [LIFTABLE Constant: Snapshot | Resolver: _ => Snapshot.Empty];
+                entityType1 = [LIFTABLE Constant: EntityType: Cliente | Resolver: namelessParameter{0} => namelessParameter{0}.Dependencies.Model.FindEntityType("OrderFlow.Domain.Entities.Cliente")];
+                instance1 = switch (entityType1)
+                {
+                    case [LIFTABLE Constant: EntityType: Cliente | Resolver: namelessParameter{1} => namelessParameter{1}.Dependencies.Model.FindEntityType("OrderFlow.Domain.Entities.Cliente")]: 
+                        {
+                            return 
+                            {
+                                Cliente instance;
+                                instance = new Cliente(
+                                    dataReader.GetString(2), 
+                                    dataReader.GetString(1)
+                                );
+                                instance.<Id>k__BackingField = dataReader.GetGuid(0);
+                                (instance is IInjectableService) ? ((IInjectableService)instance).Injected(
+                                    context: materializationContext1.Context, 
+                                    entity: instance, 
+                                    queryTrackingBehavior: TrackAll, 
+                                    structuralType: [LIFTABLE Constant: EntityType: Cliente | Resolver: namelessParameter{2} => namelessParameter{2}.Dependencies.Model.FindEntityType("OrderFlow.Domain.Entities.Cliente")]) : default(void);
+                                return instance;
+                            }}
+                    default: 
+                        default(Cliente)
+                }
+                ;
+                entry1 = entityType1 == default(IEntityType) ? default(InternalEntityEntry) : queryContext.StartTracking(
+                    entityType: entityType1, 
+                    entity: instance1, 
+                    snapshot: shadowSnapshot1);
+                return instance1;
+            } : default(void);
+            return instance1;
+        };
+        return entity;
+    }, 
+    contextType: OrderFlow.Infrastructure.Data.OrderFlowDbContext, 
+    standAloneStateManager: False, 
+    detailedErrorsEnabled: False, 
+    threadSafetyChecksEnabled: True)'
+[2026-07-12 03:10:26 DBG] () Creating DbConnection.
+[2026-07-12 03:10:26 DBG] () Created DbConnection. (8ms).
+[2026-07-12 03:10:26 DBG] () Opening connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:10:26 DBG] () Opened connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:10:26 DBG] () Creating DbCommand for 'ExecuteReader'.
+[2026-07-12 03:10:26 DBG] () Created DbCommand for 'ExecuteReader' (10ms).
+[2026-07-12 03:10:26 DBG] () Initialized DbCommand for 'ExecuteReader' (22ms).
+[2026-07-12 03:10:26 DBG] () Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Email", c."Nome"
+FROM "Clientes" AS c
+[2026-07-12 03:10:26 INF] () Executed DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."Id", c."Email", c."Nome"
+FROM "Clientes" AS c
+[2026-07-12 03:10:26 DBG] () Context 'OrderFlowDbContext' started tracking 'Cliente' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2026-07-12 03:10:26 DBG] () Context 'OrderFlowDbContext' started tracking 'Cliente' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2026-07-12 03:10:26 DBG] () Context 'OrderFlowDbContext' started tracking 'Cliente' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2026-07-12 03:10:26 DBG] () Context 'OrderFlowDbContext' started tracking 'Cliente' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2026-07-12 03:10:26 DBG] () Closing data reader to 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:10:26 DBG] () A data reader for 'orderflow' on server 'tcp://localhost:5432' is being disposed after spending 95ms reading results.
+[2026-07-12 03:10:26 DBG] () Closing connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:10:26 DBG] () Closed connection to database 'orderflow' on server 'tcp://localhost:5432' (9ms).
+[2026-07-12 03:10:26 INF] () Clientes obtidos com sucesso.
+[2026-07-12 03:10:26 DBG] () List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+[2026-07-12 03:10:26 DBG] () No information found on request to perform content negotiation.
+[2026-07-12 03:10:26 DBG] () Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+[2026-07-12 03:10:26 DBG] () Attempting to select the first formatter in the output formatters list which can write the result.
+[2026-07-12 03:10:26 DBG] () Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+[2026-07-12 03:10:26 INF] () Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[OrderFlow.Domain.Entities.Cliente, OrderFlow.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2026-07-12 03:10:26 INF] () Executed action OrderFlow.Api.Controllers.ClientesController.ObterTodos (OrderFlow.Api) in 1292.6688ms
+[2026-07-12 03:10:26 INF] () Executed endpoint 'OrderFlow.Api.Controllers.ClientesController.ObterTodos (OrderFlow.Api)'
+[2026-07-12 03:10:26 INF] () HTTP GET /api/Clientes responded 200 in 1404.3055 ms
+[2026-07-12 03:10:26 DBG] () 'OrderFlowDbContext' disposed.
+[2026-07-12 03:10:26 DBG] () Disposing connection to database 'orderflow' on server 'tcp://localhost:5432'.
+[2026-07-12 03:10:26 DBG] () Disposed connection to database 'orderflow' on server 'tcp://localhost:5432' (15ms).
+[2026-07-12 03:10:26 INF] () Request finished HTTP/2 GET https://localhost:5001/api/Clientes - 200 null application/json; charset=utf-8 1515.3786ms
+[2026-07-12 03:12:38 DBG] () Connection id "0HNMVRDIVMAGA" is closing.
+[2026-07-12 03:12:38 DBG] () Connection id "0HNMVRDIVMAGA" is closed. The last processed stream ID was 17.
+[2026-07-12 03:12:38 DBG] () Connection id "0HNMVRDIVMAGA" received FIN.
+[2026-07-12 03:12:38 DBG] () Connection id "0HNMVRDIVMAGA" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 03:12:38 DBG] () The connection queue processing loop for 0HNMVRDIVMAGA completed.
+[2026-07-12 03:12:38 DBG] () Connection id "0HNMVRDIVMAGA" stopped.
+[2026-07-12 10:46:18 DBG] () Connection id "0HNMVRDIVMAGB" accepted.
+[2026-07-12 10:46:18 DBG] () Connection id "0HNMVRDIVMAGB" started.
+[2026-07-12 10:46:18 DBG] () Connection 0HNMVRDIVMAGB established using the following protocol: "Tls13"
+[2026-07-12 10:48:18 DBG] () Connection id "0HNMVRDIVMAGB" received FIN.
+[2026-07-12 10:48:18 DBG] () Connection id "0HNMVRDIVMAGB" is closed. The last processed stream ID was 0.
+[2026-07-12 10:48:18 DBG] () The connection queue processing loop for 0HNMVRDIVMAGB completed.
+[2026-07-12 10:48:18 DBG] () Connection id "0HNMVRDIVMAGB" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 10:48:18 DBG] () Connection id "0HNMVRDIVMAGB" stopped.
+[2026-07-12 15:20:47 DBG] () Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+[2026-07-12 15:20:48 DBG] () Hosting starting
+[2026-07-12 15:20:48 DBG] () Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+[2026-07-12 15:20:48 DBG] () Wildcard detected, all requests with hosts will be allowed.
+[2026-07-12 15:20:48 WRN] () Overriding address(es) 'http://localhost:5186'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+[2026-07-12 15:20:48 INF] () Now listening on: http://[::]:5000
+[2026-07-12 15:20:48 INF] () Now listening on: https://[::]:5001
+[2026-07-12 15:20:49 DBG] () Loaded hosting startup assembly OrderFlow.Api
+[2026-07-12 15:20:49 INF] () Application started. Press Ctrl+C to shut down.
+[2026-07-12 15:20:49 INF] () Hosting environment: Development
+[2026-07-12 15:20:49 INF] () Content root path: C:\OrderFlow\src\OrderFlow.Api
+[2026-07-12 15:20:49 DBG] () Hosting started
+[2026-07-12 15:21:54 DBG] () Connection id "0HNN089PRJELH" accepted.
+[2026-07-12 15:21:54 DBG] () Connection id "0HNN089PRJELH" started.
+[2026-07-12 15:21:54 DBG] () Connection 0HNN089PRJELH established using the following protocol: "Tls13"
+[2026-07-12 15:21:55 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/index.html - null null
+[2026-07-12 15:21:55 DBG] () No candidates found for the request path '/swagger/index.html'
+[2026-07-12 15:21:55 DBG] () Request did not match any endpoints
+[2026-07-12 15:21:55 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 648.6003ms
+[2026-07-12 15:21:57 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - null null
+[2026-07-12 15:21:57 DBG] () No candidates found for the request path '/swagger/v1/swagger.json'
+[2026-07-12 15:21:57 DBG] () Request did not match any endpoints
+[2026-07-12 15:21:57 DBG] () Executing API description provider 'EndpointMetadataApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v9.0.0.0.
+[2026-07-12 15:21:57 DBG] () Executing API description provider 'DefaultApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v9.0.0.0.
+[2026-07-12 15:21:57 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 528.6577ms
+[2026-07-12 15:22:12 DBG] () Connection id "0HNN089PRJELI" accepted.
+[2026-07-12 15:22:12 DBG] () Connection id "0HNN089PRJELI" started.
+[2026-07-12 15:22:12 DBG] () Connection 0HNN089PRJELI established using the following protocol: "Tls13"
+[2026-07-12 15:22:12 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/index.html - null null
+[2026-07-12 15:22:12 DBG] () No candidates found for the request path '/swagger/index.html'
+[2026-07-12 15:22:12 DBG] () Request did not match any endpoints
+[2026-07-12 15:22:12 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 33.6338ms
+[2026-07-12 15:22:13 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui.css - null null
+[2026-07-12 15:22:13 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui-bundle.js - null null
+[2026-07-12 15:22:13 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/swagger-ui-standalone-preset.js - null null
+[2026-07-12 15:22:13 DBG] () No candidates found for the request path '/swagger/swagger-ui.css'
+[2026-07-12 15:22:13 DBG] () No candidates found for the request path '/swagger/swagger-ui-bundle.js'
+[2026-07-12 15:22:13 DBG] () No candidates found for the request path '/swagger/swagger-ui-standalone-preset.js'
+[2026-07-12 15:22:13 DBG] () Request did not match any endpoints
+[2026-07-12 15:22:13 DBG] () Request did not match any endpoints
+[2026-07-12 15:22:13 DBG] () Request did not match any endpoints
+[2026-07-12 15:22:13 INF] () Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+[2026-07-12 15:22:13 INF] () Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+[2026-07-12 15:22:13 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui.css - 200 144929 text/css 278.6256ms
+[2026-07-12 15:22:13 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui-standalone-preset.js - 200 312163 text/javascript 283.1159ms
+[2026-07-12 15:22:13 INF] () Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+[2026-07-12 15:22:13 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/swagger-ui-bundle.js - 200 1061536 text/javascript 347.9042ms
+[2026-07-12 15:22:14 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - null null
+[2026-07-12 15:22:14 DBG] () No candidates found for the request path '/swagger/v1/swagger.json'
+[2026-07-12 15:22:14 DBG] () Request did not match any endpoints
+[2026-07-12 15:22:14 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/favicon-16x16.png - null null
+[2026-07-12 15:22:14 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 86.4146ms
+[2026-07-12 15:22:14 DBG] () No candidates found for the request path '/swagger/favicon-16x16.png'
+[2026-07-12 15:22:14 DBG] () Request did not match any endpoints
+[2026-07-12 15:22:14 INF] () Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+[2026-07-12 15:22:14 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/favicon-16x16.png - 200 665 image/png 160.4251ms
+[2026-07-12 15:24:10 DBG] () Connection id "0HNN089PRJELH" is closing.
+[2026-07-12 15:24:10 DBG] () Connection id "0HNN089PRJELH" is closed. The last processed stream ID was 3.
+[2026-07-12 15:24:10 DBG] () Connection id "0HNN089PRJELH" received FIN.
+[2026-07-12 15:24:10 DBG] () Connection id "0HNN089PRJELH" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 15:24:10 DBG] () The connection queue processing loop for 0HNN089PRJELH completed.
+[2026-07-12 15:24:10 DBG] () Connection id "0HNN089PRJELH" stopped.
+[2026-07-12 15:24:27 DBG] () Connection id "0HNN089PRJELI" is closing.
+[2026-07-12 15:24:27 DBG] () Connection id "0HNN089PRJELI" is closed. The last processed stream ID was 11.
+[2026-07-12 15:24:27 DBG] () The connection queue processing loop for 0HNN089PRJELI completed.
+[2026-07-12 15:24:27 DBG] () Connection id "0HNN089PRJELI" received FIN.
+[2026-07-12 15:24:27 DBG] () Connection id "0HNN089PRJELI" stopped.
+[2026-07-12 15:24:27 DBG] () Connection id "0HNN089PRJELI" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 15:32:31 INF] () Application is shutting down...
+[2026-07-12 15:32:31 DBG] () Hosting stopping
+[2026-07-12 15:32:31 DBG] () Hosting stopped
+[2026-07-12 15:41:36 DBG] () Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+[2026-07-12 15:41:37 DBG] () Hosting starting
+[2026-07-12 15:41:37 DBG] () Middleware configuration started with options: {AllowedHosts = *, AllowEmptyHosts = True, IncludeFailureMessage = True}
+[2026-07-12 15:41:37 DBG] () Wildcard detected, all requests with hosts will be allowed.
+[2026-07-12 15:41:37 WRN] () Overriding address(es) 'http://localhost:5186'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+[2026-07-12 15:41:38 INF] () Now listening on: http://[::]:5000
+[2026-07-12 15:41:38 INF] () Now listening on: https://[::]:5001
+[2026-07-12 15:41:38 DBG] () Loaded hosting startup assembly OrderFlow.Api
+[2026-07-12 15:41:39 INF] () Application started. Press Ctrl+C to shut down.
+[2026-07-12 15:41:39 INF] () Hosting environment: Development
+[2026-07-12 15:41:39 INF] () Content root path: C:\OrderFlow\src\OrderFlow.Api
+[2026-07-12 15:41:39 DBG] () Hosting started
+[2026-07-12 15:41:53 DBG] () Connection id "0HNN08KV8GDIF" accepted.
+[2026-07-12 15:41:53 DBG] () Connection id "0HNN08KV8GDIF" started.
+[2026-07-12 15:41:54 DBG] () Connection 0HNN08KV8GDIF established using the following protocol: "Tls13"
+[2026-07-12 15:41:54 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/index.html - null null
+[2026-07-12 15:41:54 DBG] () No candidates found for the request path '/swagger/index.html'
+[2026-07-12 15:41:54 DBG] () Request did not match any endpoints
+[2026-07-12 15:41:54 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 482.3889ms
+[2026-07-12 15:41:55 INF] () Request starting HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - null null
+[2026-07-12 15:41:55 DBG] () No candidates found for the request path '/swagger/v1/swagger.json'
+[2026-07-12 15:41:55 DBG] () Request did not match any endpoints
+[2026-07-12 15:41:55 DBG] () Executing API description provider 'EndpointMetadataApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v9.0.0.0.
+[2026-07-12 15:41:55 DBG] () Executing API description provider 'DefaultApiDescriptionProvider' from assembly Microsoft.AspNetCore.Mvc.ApiExplorer v9.0.0.0.
+[2026-07-12 15:41:55 INF] () Request finished HTTP/2 GET https://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 409.0213ms
+[2026-07-12 15:44:07 DBG] () Connection id "0HNN08KV8GDIF" is closing.
+[2026-07-12 15:44:07 DBG] () Connection id "0HNN08KV8GDIF" is closed. The last processed stream ID was 3.
+[2026-07-12 15:44:08 DBG] () Connection id "0HNN08KV8GDIF" received FIN.
+[2026-07-12 15:44:08 DBG] () The connection queue processing loop for 0HNN08KV8GDIF completed.
+[2026-07-12 15:44:08 DBG] () Connection id "0HNN08KV8GDIF" sending FIN because: "The Socket transport's send loop completed gracefully."
+[2026-07-12 15:44:08 DBG] () Connection id "0HNN08KV8GDIF" stopped.
