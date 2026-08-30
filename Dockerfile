@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY ["src/OrderFlow.Api/OrderFlow.Api.csproj", "src/OrderFlow.Api/"]
-COPY ["src/Orderflow.Application/OrderFlow.Application.csproj", "src/Orderflow.Application/"]
+COPY ["src/Orderflow.Application/Orderflow.Application.csproj", "src/Orderflow.Application/"]
 COPY ["src/OrderFlow.Domain/OrderFlow.Domain.csproj", "src/OrderFlow.Domain/"]
 COPY ["src/OrderFlow.Infrastructure/OrderFlow.Infrastructure.csproj", "src/OrderFlow.Infrastructure/"]
 RUN dotnet restore "src/OrderFlow.Api/OrderFlow.Api.csproj"
