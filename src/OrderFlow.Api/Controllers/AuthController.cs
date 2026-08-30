@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using OrderFlow.Application.DTO;
 using OrderFlow.Application.Interfaces;
 using Asp.Versioning;
@@ -21,7 +22,7 @@ public class AuthController : ControllerBase
         return resultado.Sucesso ? Ok(resultado.Tokens) : Conflict(new { mensagem = resultado.Erro });
     }
 
-    [AllowAnonymous, HttpPost("login")]
+    [AllowAnonymous, HttpPost("login"), EnableRateLimiting("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
         var resultado = await _authService.LoginAsync(dto);
