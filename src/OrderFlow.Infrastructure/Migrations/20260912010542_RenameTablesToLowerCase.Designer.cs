@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderFlow.Infrastructure.Data;
@@ -11,9 +12,11 @@ using OrderFlow.Infrastructure.Data;
 namespace OrderFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderFlowDbContext))]
-    partial class OrderFlowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260912010542_RenameTablesToLowerCase")]
+    partial class RenameTablesToLowerCase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,222 +29,178 @@ namespace OrderFlow.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnType("text");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("nome");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_clientes");
+                    b.HasKey("Id");
 
-                    b.ToTable("clientes", (string)null);
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("OrderFlow.Domain.Entities.ItemPedido", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("PedidoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("pedido_id");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("PrecoUnitario")
-                        .HasColumnType("numeric")
-                        .HasColumnName("preco_unitario");
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("ProdutoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("produto_id");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantidade")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantidade");
+                        .HasColumnType("integer");
 
-                    b.HasKey("Id")
-                        .HasName("pk_item_pedido");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PedidoId")
-                        .HasDatabaseName("ix_item_pedido_pedido_id");
+                    b.HasIndex("PedidoId");
 
-                    b.HasIndex("ProdutoId")
-                        .HasDatabaseName("ix_item_pedido_produto_id");
+                    b.HasIndex("ProdutoId");
 
-                    b.ToTable("item_pedido", (string)null);
+                    b.ToTable("ItemPedido");
                 });
 
             modelBuilder.Entity("OrderFlow.Domain.Entities.Pedido", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ClienteId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cliente_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Data")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
+                        .HasColumnType("integer");
 
-                    b.HasKey("Id")
-                        .HasName("pk_pedidos");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ClienteId")
-                        .HasDatabaseName("ix_pedidos_cliente_id");
+                    b.HasIndex("ClienteId");
 
-                    b.ToTable("pedidos", (string)null);
+                    b.ToTable("Pedidos");
                 });
 
             modelBuilder.Entity("OrderFlow.Domain.Entities.Produto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Estoque")
-                        .HasColumnType("numeric")
-                        .HasColumnName("estoque");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("nome");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Preco")
-                        .HasColumnType("numeric")
-                        .HasColumnName("preco");
+                        .HasColumnType("numeric");
 
-                    b.HasKey("Id")
-                        .HasName("pk_produtos");
+                    b.HasKey("Id");
 
-                    b.ToTable("produtos", (string)null);
+                    b.ToTable("Produtos");
                 });
 
             modelBuilder.Entity("OrderFlow.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CriadoEm")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("criado_em");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset>("ExpiraEm")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expira_em");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset?>("RevogadoEm")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("revogado_em");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SubstituidoPorTokenHash")
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("substituido_por_token_hash");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("TokenHash")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("token_hash");
+                        .HasColumnType("character varying(64)");
 
                     b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("usuario_id");
+                        .HasColumnType("uuid");
 
-                    b.HasKey("Id")
-                        .HasName("pk_refresh_tokens");
+                    b.HasKey("Id");
 
                     b.HasIndex("TokenHash")
-                        .IsUnique()
-                        .HasDatabaseName("ix_refresh_tokens_token_hash");
+                        .IsUnique();
 
-                    b.HasIndex("UsuarioId")
-                        .HasDatabaseName("ix_refresh_tokens_usuario_id");
+                    b.HasIndex("UsuarioId");
 
-                    b.ToTable("refresh_tokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("OrderFlow.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("boolean")
-                        .HasColumnName("ativo");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("CriadoEm")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("criado_em");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(254)
-                        .HasColumnType("character varying(254)")
-                        .HasColumnName("email");
+                        .HasColumnType("character varying(254)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("nome");
+                        .HasColumnType("character varying(150)");
 
                     b.Property<string>("Papel")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("papel");
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("SenhaHash")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("senha_hash");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_usuarios");
+                    b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique()
-                        .HasDatabaseName("ix_usuarios_email");
+                        .IsUnique();
 
-                    b.ToTable("usuarios", (string)null);
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("OrderFlow.Domain.Entities.ItemPedido", b =>
                 {
                     b.HasOne("OrderFlow.Domain.Entities.Pedido", null)
                         .WithMany("Itens")
-                        .HasForeignKey("PedidoId")
-                        .HasConstraintName("fk_item_pedido_pedidos_pedido_id");
+                        .HasForeignKey("PedidoId");
 
                     b.HasOne("OrderFlow.Domain.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_item_pedido_produtos_produto_id");
+                        .IsRequired();
 
                     b.Navigation("Produto");
                 });
@@ -252,8 +211,7 @@ namespace OrderFlow.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_pedidos_clientes_cliente_id");
+                        .IsRequired();
 
                     b.Navigation("Cliente");
                 });
@@ -264,8 +222,7 @@ namespace OrderFlow.Infrastructure.Migrations
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_refresh_tokens_usuarios_usuario_id");
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });

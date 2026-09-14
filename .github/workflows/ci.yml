@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore OrderFlow.sln
+
+      - name: Build
+        run: dotnet build OrderFlow.sln --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test OrderFlow.sln --no-build --configuration Release
+
+  gitleaks:
+    name: Secret Scan (Gitleaks)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # necessário para o gitleaks-action escanear só o diff do PR
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Sem GITLEAKS_LICENSE: gratuito para uso pessoal/repos públicos.
+        # Se este repo virar propriedade de uma organização GitHub, checar
+        # https://github.com/gitleaks/gitleaks-action licensing.
+
+  semgrep:
+    name: SAST (Semgrep)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: semgrep/semgrep-action@v1
+        continue-on-error: true  # não falha o build; ver resultados nos comentários do PR
+        with:
+          config: auto
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -9,5 +9,6 @@ namespace OrderFlow.Domain.Interfaces
         Task<(IEnumerable<Pedido> Itens, int TotalItens)> ObterPaginadoAsync(
             OrderFlow.Domain.Queries.PedidoConsulta consulta);
         Task<Pedido?> ObterPorIdAsync(Guid id); // Processamento em memória, não persistido no banco de dados   
+
     }
 }
