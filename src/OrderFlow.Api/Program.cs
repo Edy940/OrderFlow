@@ -63,6 +63,7 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddDbContext<OrderFlowDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .UseSnakeCaseNamingConvention()
 );
 
 builder.Services.AddEndpointsApiExplorer();
@@ -142,6 +143,14 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!, name: "postgres");
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 builder.Services.AddHttpClient("pagamentos", client =>
 {
     client.BaseAddress = new Uri("http://localhost:1"); // porta que ninguém escuta = falha garantida, só para teste
@@ -172,6 +181,7 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 app.UseRateLimiter();
+app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
