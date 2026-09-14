@@ -174,6 +174,26 @@ docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/orderflow-api:latest
   isso é literalmente uma pergunta de entrevista: "como você evita esgotar conexões do banco quando
   escala horizontalmente?".
 
+#### Passo 3.1 — Alternativa: Aurora Serverless e ACU (memória + disponibilidade)
+
+Em vez de RDS provisionado (instância de tamanho fixo, ex.: `db.r5.large`), existe o **Aurora
+Serverless**, medido em **ACU (Aurora Capacity Unit)**:
+
+- **1 ACU ≈ 2 GiB de memória** + CPU e rede proporcionais — é a "unidade de tamanho" do banco.
+- Você define um **mínimo e máximo de ACUs**, e o banco escala sozinho dentro dessa faixa conforme
+  a carga, sem você escolher uma instância fixa.
+
+| Versão | Como escala | Ponto de disponibilidade |
+|---|---|---|
+| **Serverless v1** | Em degraus (ex.: 2 → 4 → 8 ACUs) e pode **pausar** (0 ACU) quando ocioso | Pausar causa **cold start** de alguns segundos na próxima conexão — indisponibilidade real |
+| **Serverless v2** | Incrementos de **0.5 ACU**, quase instantâneo, **não pausa** | Evita o cold start da v1 — é a opção certa quando disponibilidade é crítica (ex.: pagamentos) |
+
+**Resposta pronta pra entrevista:**
+> "Pra picos de carga imprevisíveis eu usaria Aurora Serverless v2 em vez de RDS provisionado — ele
+> escala em passos de 0.5 ACU (cada ACU ~2GB de memória) sem pausar o banco, o que evita o cold-start
+> que a v1 tem. Isso resolve tanto memória (escala sob demanda, sem superdimensionar) quanto
+> disponibilidade (sem gap de indisponibilidade na escala)."
+
 ### Passo 4 — ECS Fargate (rodar os containers sem gerenciar servidor)
 
 1. Criar um **cluster ECS** (Fargate).
@@ -247,6 +267,7 @@ Pra cada tema, uma frase de 15-20s conectando conceito → o que você implement
 | Balanceamento de carga | "Uso ALB na frente de múltiplas tasks Fargate, com health check em `/health` que valida inclusive a conexão com o Postgres." |
 | Escalonamento | "Auto Scaling do ECS baseado em CPU e request count, min 2 / max 6 tasks." |
 | Saturação | "Monitoro connection pool do Npgsql e uso circuit breaker via Polly pra não deixar uma dependência lenta derrubar a API inteira." |
+| Memória / disponibilidade do banco | "Uso Aurora Serverless v2, medido em ACU (~2GB de memória cada), que escala em passos de 0.5 ACU sem pausar — evita o cold-start que a v1 tem quando o banco fica ocioso." |
 | Tempo de requisição | "Serilog com correlation ID em toda requisição, e CloudWatch alarme em `TargetResponseTime` p95." |
 | Proteção de requisições | "Rate limiting nativo do ASP.NET Core por IP, política mais restritiva no endpoint de login." |
 | DDoS | "Shield Standard automático + WAF com rate-based rule na borda, antes do tráfego chegar na aplicação." |
