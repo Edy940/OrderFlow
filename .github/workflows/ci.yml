@@ -167,6 +167,7 @@ jobs:
             IMAGE_TAG=${{ steps.resolve.outputs.image_tag }}
             DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
             JWT_CHAVE=${{ secrets.JWT_CHAVE }}
+            GRAFANA_ADMIN_PASSWORD=${{ secrets.GRAFANA_ADMIN_PASSWORD }}
             EOF
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             docker compose -f docker-compose.prod.yml pull
