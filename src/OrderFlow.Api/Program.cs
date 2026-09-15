@@ -21,6 +21,7 @@ using System.Threading.RateLimiting;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using OrderFlow.Api.Configurations;
+using Prometheus;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -165,6 +166,7 @@ builder.Services.AddHttpClient("pagamentos", client =>
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
@@ -186,5 +188,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
+app.MapMetrics();
 
 app.Run();
