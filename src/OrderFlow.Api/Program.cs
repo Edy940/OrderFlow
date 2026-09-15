@@ -114,7 +114,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
-builder.Services.AddAutoMapper(typeof(PedidoProfile));
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<PedidoProfile>());
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
