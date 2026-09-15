@@ -1,0 +1,12 @@
+services:
+  api:
+    image: ${IMAGE_NAME}:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: ${DB_CONNECTION_STRING}
+      Jwt__Chave: ${JWT_CHAVE}
+      Jwt__Emissor: OrderFlow.Api
+      Jwt__Audiencia: OrderFlow.Client
