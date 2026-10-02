@@ -1,0 +1,194 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Tag/SHA da imagem em ghcr.io para (re)implantar (rollback manual)'
+        required: true
+        default: 'latest'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    if: github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore OrderFlow.sln
+
+      - name: Build
+        run: dotnet build OrderFlow.sln --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test OrderFlow.sln --no-build --configuration Release
+
+  gitleaks:
+    name: Secret Scan (Gitleaks)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # necessário para o gitleaks-action escanear só o diff do PR
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Sem GITLEAKS_LICENSE: gratuito para uso pessoal/repos públicos.
+        # Se este repo virar propriedade de uma organização GitHub, checar
+        # https://github.com/gitleaks/gitleaks-action licensing.
+
+  semgrep:
+    name: SAST (Semgrep)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: semgrep/semgrep-action@v1
+        continue-on-error: true  # não falha o build; ver resultados nos comentários do PR
+        with:
+          config: auto
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker-build-push:
+    name: Build & Push Docker Image
+    needs: [ build-and-test, gitleaks, semgrep ]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_name: ${{ steps.vars.outputs.image_name }}
+      image_tag: ${{ steps.vars.outputs.image_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute image name/tag
+        id: vars
+        run: |
+          IMAGE_NAME=$(echo "ghcr.io/${{ github.repository_owner }}/orderflow" | tr '[:upper:]' '[:lower:]')
+          echo "image_name=$IMAGE_NAME" >> "$GITHUB_OUTPUT"
+          echo "image_tag=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ steps.vars.outputs.image_name }}:${{ steps.vars.outputs.image_tag }}
+            ${{ steps.vars.outputs.image_name }}:latest
+
+  deploy:
+    name: Deploy to EC2
+    needs: docker-build-push
+    if: |
+      always() &&
+      (needs.docker-build-push.result == 'success' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve image name/tag to deploy
+        id: resolve
+        run: |
+          IMAGE_NAME=$(echo "ghcr.io/${{ github.repository_owner }}/orderflow" | tr '[:upper:]' '[:lower:]')
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.image_tag }}"
+          else
+            TAG="${{ needs.docker-build-push.outputs.image_tag }}"
+          fi
+          echo "image_name=$IMAGE_NAME" >> "$GITHUB_OUTPUT"
+          echo "image_tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Copy docker-compose.prod.yml to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "docker-compose.prod.yml"
+          target: "~/orderflow-deploy"
+
+      - name: Deploy (pull + up)
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            mkdir -p ~/orderflow-deploy
+            cd ~/orderflow-deploy
+            cat > .env <<'EOF'
+            IMAGE_NAME=${{ steps.resolve.outputs.image_name }}
+            IMAGE_TAG=${{ steps.resolve.outputs.image_tag }}
+            DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
+            JWT_CHAVE=${{ secrets.JWT_CHAVE }}
+            GRAFANA_ADMIN_PASSWORD=${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+            EOF
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d
+
+      - name: Health check pós-deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            for i in $(seq 1 10); do
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/health || echo "000")
+              if [ "$STATUS" = "200" ]; then
+                echo "Health check OK (tentativa $i)"
+                exit 0
+              fi
+              echo "Tentativa $i: status $STATUS, aguardando..."
+              sleep 3
+            done
+            echo "Health check falhou apos 10 tentativas"
+            exit 1

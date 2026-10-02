@@ -1,0 +1,12 @@
+{
+  "name": "orderflow-security-audit-report",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Gerador do PDF do relatório de auditoria de segurança do OrderFlow.",
+  "scripts": {
+    "gerar": "node gerar-pdf.js"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}

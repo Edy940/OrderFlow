@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Orderflow.Application\OrderFlow.Application.csproj" />
+    <ProjectReference Include="..\Orderflow.Application\Orderflow.Application.csproj" />
     <ProjectReference Include="..\OrderFlow.Domain\OrderFlow.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

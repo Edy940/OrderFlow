@@ -22,5 +22,8 @@ public class UsuarioRepository : IUsuarioRepository
     public async Task AdicionarAsync(Usuario usuario) =>
         await _context.Usuarios.AddAsync(usuario);
 
+    public async Task AdicionarRefreshTokenAsync(RefreshToken refreshToken) =>
+        await _context.RefreshTokens.AddAsync(refreshToken);
+
     public Task SalvarAlteracoesAsync() => _context.SaveChangesAsync();
 }

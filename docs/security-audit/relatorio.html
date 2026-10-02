@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Relatório de Auditoria de Segurança — OrderFlow</title>
+<style>
+  :root{
+    --critica:#B91C1C;
+    --alta:#EA580C;
+    --media:#D97706;
+    --baixa:#2563EB;
+    --info:#64748B;
+    --forte:#059669;
+    --ink:#0F172A;
+    --sub:#475569;
+    --line:#E2E8F0;
+    --bg-soft:#F8FAFC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    color:var(--ink);
+    font-size:12.5px;
+    line-height:1.5;
+    background:#fff;
+  }
+  .page{
+    page-break-after: always;
+    padding: 4px 2px;
+    min-height: 235mm;
+  }
+  .page:last-child{ page-break-after: auto; }
+  h1{ font-size:22px; margin:0 0 6px; }
+  h2{ font-size:16px; margin:0 0 12px; color:var(--ink); border-bottom:2px solid var(--line); padding-bottom:6px;}
+  h3{ font-size:13px; margin:18px 0 8px; color:var(--ink); }
+  p{ margin:0 0 8px; color:var(--sub); }
+  small{ color:var(--sub); }
+  code, .mono{ font-family: 'Consolas', 'Courier New', monospace; }
+
+  /* ---------- CAPA ---------- */
+  .capa{
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+    height: 235mm;
+    background: linear-gradient(180deg, #0F172A 0%, #1E293B 55%, #0F172A 100%);
+    color:#fff; padding: 60px 50px; border-radius: 4px;
+  }
+  .capa .tag{
+    display:inline-block; background:rgba(255,255,255,.12); color:#CBD5E1;
+    padding:4px 12px; border-radius:999px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:22px;
+  }
+  .capa h1{ font-size:32px; color:#fff; max-width:520px; line-height:1.25; margin-bottom:10px;}
+  .capa .sub{ color:#94A3B8; font-size:14px; margin-bottom:40px; }
+  .capa .meta-grid{ display:grid; grid-template-columns: 140px 1fr; row-gap:10px; column-gap:10px; font-size:12.5px; max-width:560px;}
+  .capa .meta-grid dt{ color:#64748B; font-weight:600;}
+  .capa .meta-grid dd{ margin:0; color:#E2E8F0;}
+  .capa .metodologia{
+    margin-top:36px; padding-top:22px; border-top:1px solid rgba(255,255,255,.15); max-width:560px;
+  }
+  .capa .metodologia h3{ color:#fff; font-size:12px; text-transform:uppercase; letter-spacing:.05em; margin:0 0 8px;}
+  .capa .metodologia p{ color:#94A3B8; font-size:11.5px; margin:0 0 6px;}
+
+  /* ---------- RESUMO / KPIs ---------- */
+  .kpi-row{ display:flex; gap:10px; margin-bottom:20px; }
+  .kpi{
+    flex:1; border:1px solid var(--line); border-radius:8px; padding:12px 10px; text-align:center;
+  }
+  .kpi .n{ font-size:24px; font-weight:700; }
+  .kpi .l{ font-size:10.5px; color:var(--sub); text-transform:uppercase; letter-spacing:.04em; margin-top:2px;}
+  .kpi.critica .n{ color:var(--critica); }
+  .kpi.alta .n{ color:var(--alta); }
+  .kpi.media .n{ color:var(--media); }
+  .kpi.baixa .n{ color:var(--baixa); }
+  .kpi.info .n{ color:var(--info); }
+  .kpi.total .n{ color:var(--ink); }
+
+  .charts-row{ display:flex; gap:28px; align-items:flex-start; margin-bottom:10px;}
+  .chart-box{ flex:1; border:1px solid var(--line); border-radius:8px; padding:16px; }
+  .chart-box h4{ margin:0 0 14px; font-size:12.5px; color:var(--ink); text-align:center;}
+
+  .donut-wrap{ display:flex; align-items:center; gap:22px; justify-content:center; }
+  .donut{
+    width:150px; height:150px; border-radius:50%; position:relative; flex-shrink:0;
+    background: conic-gradient(
+      var(--critica) 0% 37.5%,
+      var(--alta) 37.5% 62.5%,
+      var(--media) 62.5% 87.5%,
+      var(--info) 87.5% 100%
+    );
+  }
+  .donut::after{
+    content:""; position:absolute; inset:20%; background:#fff; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .donut .center-label{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .donut .center-label .n{ font-size:22px; font-weight:700; color:var(--ink); }
+  .donut .center-label .l{ font-size:8.5px; color:var(--sub); text-transform:uppercase; }
+
+  .legend{ display:flex; flex-direction:column; gap:8px; font-size:11.5px; }
+  .legend .item{ display:flex; align-items:center; gap:7px; }
+  .legend .dot{ width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+  .bars{ display:flex; align-items:flex-end; gap:18px; height:170px; padding:0 6px; }
+  .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
+  .bar{ width:38px; border-radius:5px 5px 0 0; background:#4338CA; position:relative; }
+  .bar .val{ position:absolute; top:-18px; left:0; right:0; text-align:center; font-size:11px; font-weight:700; color:var(--ink);}
+  .bar-col .cat-label{ margin-top:8px; font-size:9.5px; color:var(--sub); text-align:center; line-height:1.25; max-width:80px;}
+
+  /* ---------- FORTES / FRACOS ---------- */
+  .cols2{ display:flex; gap:18px; }
+  .card-list{ flex:1; }
+  .finding-card{
+    border:1px solid var(--line); border-left:4px solid var(--forte); border-radius:6px; padding:10px 12px; margin-bottom:10px;
+    break-inside: avoid;
+  }
+  .finding-card.fraco{ border-left-color:var(--critica); }
+  .finding-card .t{ font-weight:600; font-size:12px; margin-bottom:4px; }
+  .finding-card .loc{ font-size:10.5px; color:var(--sub); margin-bottom:4px; }
+  .finding-card .d{ font-size:11px; color:var(--sub); }
+
+  /* ---------- TABELA DE ACHADOS ---------- */
+  table.achados{ width:100%; border-collapse:collapse; font-size:11px; }
+  table.achados th{
+    text-align:left; background:var(--bg-soft); padding:8px 8px; border-bottom:2px solid var(--line);
+    font-size:10px; text-transform:uppercase; letter-spacing:.03em; color:var(--sub);
+  }
+  table.achados td{ padding:8px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.achados tr{ break-inside: avoid; }
+  .chip{
+    display:inline-block; padding:3px 9px; border-radius:999px; font-size:9.5px; font-weight:700;
+    color:#fff; white-space:nowrap; text-transform:uppercase; letter-spacing:.02em;
+  }
+  .chip.critica{ background:var(--critica); }
+  .chip.alta{ background:var(--alta); }
+  .chip.media{ background:var(--media); }
+  .chip.baixa{ background:var(--baixa); }
+  .chip.info{ background:var(--info); }
+  .file-loc{ font-family:'Consolas','Courier New',monospace; font-size:10px; color:var(--ink); white-space:nowrap;}
+  .snippet{
+    display:block; margin-top:5px; background:#0F172A; color:#E2E8F0; padding:6px 8px; border-radius:5px;
+    font-family:'Consolas','Courier New',monospace; font-size:9.5px; white-space:pre-wrap; word-break:break-word;
+  }
+
+  .cat-heading{
+    margin-top:22px; margin-bottom:8px; font-size:12.5px; font-weight:700; color:var(--ink);
+    background:var(--bg-soft); padding:6px 10px; border-radius:6px; border-left:4px solid #4338CA;
+  }
+
+  /* ---------- RECOMENDAÇÕES ---------- */
+  .rec-group{ margin-bottom:16px; break-inside: avoid; }
+  .rec-badge{
+    display:inline-block; font-weight:700; font-size:11px; padding:3px 10px; border-radius:5px; color:#fff; margin-bottom:8px;
+  }
+  .rec-badge.p1{ background:var(--critica); }
+  .rec-badge.p2{ background:var(--media); }
+  .rec-badge.p3{ background:var(--baixa); }
+  .rec-item{ border:1px solid var(--line); border-radius:6px; padding:9px 11px; margin-bottom:7px; font-size:11.5px; }
+  .rec-item .rt{ font-weight:600; margin-bottom:3px; }
+  .rec-item .rd{ color:var(--sub); font-size:11px; }
+
+  /* ---------- ISSUES ---------- */
+  .issue-block{
+    border:1px solid var(--line); border-radius:8px; margin-bottom:16px; overflow:hidden; break-inside: avoid;
+  }
+  .issue-tag{
+    background:#0F172A; color:#94A3B8; font-family:'Consolas','Courier New',monospace; font-size:9.5px;
+    padding:5px 10px;
+  }
+  .issue-body{ padding:12px 14px; }
+  .issue-md{
+    background:#0F172A; color:#E2E8F0; font-family:'Consolas','Courier New',monospace; font-size:9.5px;
+    padding:12px 14px; white-space:pre-wrap; word-break:break-word; line-height:1.6; border-top:1px solid #1E293B;
+  }
+
+  .note{
+    background:var(--bg-soft); border:1px dashed var(--line); border-radius:6px; padding:10px 12px; font-size:11px; color:var(--sub); margin-bottom:14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= CAPA ======================= -->
+<section class="page">
+  <div class="capa">
+    <span class="tag">Relatório Confidencial · Segurança de Aplicação</span>
+    <h1>Relatório de Auditoria de Segurança<br/>— OrderFlow</h1>
+    <div class="sub">Revisão dirigida a 5 categorias de falhas comuns em APIs próprias com frontend SPA</div>
+
+    <dl class="meta-grid">
+      <dt>Data</dt><dd>14 de setembro de 2026</dd>
+      <dt>Repositório</dt><dd>OrderFlow (branch feature/implementacao-autoMapper)</dd>
+      <dt>Escopo</dt><dd>Backend ASP.NET Core (OrderFlow.Api / .Application / .Domain / .Infrastructure) e frontend React em <span class="mono">client/</span></dd>
+      <dt>Fora de escopo</dt><dd>Não há pipelines de CI/CD (.github/workflows vazio) nem docker-compose/Helm/Terraform no repositório</dd>
+    </dl>
+
+    <div class="metodologia">
+      <h3>Nota metodológica — mapeamento de categorias para a stack detectada</h3>
+      <p><b>Stack:</b> API própria em C# / ASP.NET Core 9 (Clean Architecture), EF Core 9 + Npgsql (PostgreSQL), autenticação JWT Bearer própria (sem provedor externo), FluentValidation, AutoMapper. Frontend em React 19 + TypeScript + Vite, roteamento client-side com react-router-dom.</p>
+      <p><b>Cat. 1 (tranca de banco):</b> não é Supabase/RLS — mapeada para o único mecanismo de isolamento existente na stack: o atributo <span class="mono">[Authorize]</span> do ASP.NET Core em cada endpoint. Não há RLS, middleware de tenant nem filtro por <span class="mono">user_id</span>, pois o domínio (Cliente, Produto, Pedido) não modela propriedade por usuário.</p>
+      <p><b>Cat. 2:</b> comparado cada gate de UI do React (<span class="mono">RequireAuth.tsx</span>) com os atributos de autorização dos Controllers.</p>
+      <p><b>Cat. 3 (IDOR):</b> percorridos, sem amostragem, os 4 controllers e todos os handlers que recebem <span class="mono">Guid id</span>.</p>
+      <p><b>Cat. 4:</b> revisados appsettings*.json, Dockerfile, OrderFlow.Api.http, client/.env(.example) e o histórico git desses arquivos.</p>
+      <p><b>Cat. 5 (XSS):</b> varredura em todo <span class="mono">client/src</span> por sinks (dangerouslySetInnerHTML, innerHTML, eval) e no backend por renderização de HTML/e-mail com entrada do usuário.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= RESUMO EXECUTIVO ======================= -->
+<section class="page">
+  <h2>Resumo executivo</h2>
+
+  <div class="kpi-row">
+    <div class="kpi total"><div class="n">8</div><div class="l">Achados totais</div></div>
+    <div class="kpi critica"><div class="n">3</div><div class="l">Crítica</div></div>
+    <div class="kpi alta"><div class="n">2</div><div class="l">Alta</div></div>
+    <div class="kpi media"><div class="n">2</div><div class="l">Média</div></div>
+    <div class="kpi baixa"><div class="n">0</div><div class="l">Baixa</div></div>
+    <div class="kpi info"><div class="n">1</div><div class="l">Informativa</div></div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-box">
+      <h4>Achados por severidade</h4>
+      <div class="donut-wrap">
+        <div class="donut">
+          <div class="center-label"><div class="n">8</div><div class="l">achados</div></div>
+        </div>
+        <div class="legend">
+          <div class="item"><span class="dot" style="background:var(--critica)"></span>Crítica — 3 (37,5%)</div>
+          <div class="item"><span class="dot" style="background:var(--alta)"></span>Alta — 2 (25%)</div>
+          <div class="item"><span class="dot" style="background:var(--media)"></span>Média — 2 (25%)</div>
+          <div class="item"><span class="dot" style="background:var(--info)"></span>Informativa — 1 (12,5%)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h4>Achados por categoria auditada</h4>
+      <div class="bars">
+        <div class="bar-col">
+          <div class="bar" style="height:2px;"><span class="val">0</span></div>
+          <div class="cat-label">1. Isolamento de dados</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar" style="height:170px; background:var(--critica);"><span class="val">6</span></div>
+          <div class="cat-label">2+3. Controle de acesso / IDOR</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar" style="height:58px; background:var(--media);"><span class="val">2</span></div>
+          <div class="cat-label">4. Chaves expostas</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar" style="height:2px;"><span class="val">0</span></div>
+          <div class="cat-label">5. XSS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Leitura do resultado:</b> as categorias 1 (isolamento por tenant/dono) e 5 (XSS) não geraram achados — a primeira porque a stack não modela propriedade de registros por usuário (nota abaixo), e a segunda porque o frontend não usa nenhum sink perigoso. O risco concentra-se quase inteiramente na categoria de controle de acesso: 3 dos 4 controllers expõem dados via GET sem qualquer autenticação.
+  </div>
+</section>
+
+<!-- ======================= PONTOS FORTES / FRACOS ======================= -->
+<section class="page">
+  <h2>Pontos fortes e pontos fracos</h2>
+  <div class="cols2">
+    <div class="card-list">
+      <h3 style="color:var(--forte)">✔ Pontos fortes (verificados no código)</h3>
+
+      <div class="finding-card">
+        <div class="t">Hashing de senha robusto</div>
+        <div class="loc mono">src/OrderFlow.Infrastructure/Security/SenhaHasher.cs:12-36</div>
+        <div class="d">PBKDF2-HMAC-SHA256, 100.000 iterações, salt aleatório de 16 bytes por usuário, e comparação em tempo constante (CryptographicOperations.FixedTimeEquals) para evitar timing attack.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Segredo JWT validado na inicialização (fail-fast)</div>
+        <div class="loc mono">src/OrderFlow.Api/Program.cs:70-78</div>
+        <div class="d">.Validate(s => s.Chave.Length >= 32).ValidateOnStart() impede a API de subir com Jwt:Chave vazia ou fraca — em Produção (sem appsettings.Development.json) o processo falha ao iniciar em vez de assinar tokens com segredo inseguro.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Refresh token com rotação, hash e revogação</div>
+        <div class="loc mono">src/Orderflow.Application/Services/AuthService.cs:41-68 e src/OrderFlow.Infrastructure/Security/TokenService.cs:45-52</div>
+        <div class="d">Apenas o hash SHA-256 do refresh token é persistido (nunca o valor em claro); a cada renovação o token antigo é revogado e substituído. Access token com TTL curto (15 min).</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Rate limiting em login + limite global</div>
+        <div class="loc mono">src/OrderFlow.Api/Program.cs:118-141</div>
+        <div class="d">Política "login" limita a 5 tentativas/min por IP; limitador global de 100 req/min por IP cobre o restante da API.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Rotas de criação (POST) corretamente protegidas</div>
+        <div class="loc mono">ClientesController.cs:33, ProdutosController.cs:29, PedidosController.cs:50</div>
+        <div class="d">Todas as ações de escrita (criar cliente, criar produto, criar pedido) exigem [Authorize]. O problema identificado nesta auditoria está isolado às rotas de leitura (GET).</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Consultas 100% parametrizadas via EF Core</div>
+        <div class="loc mono">src/OrderFlow.Infrastructure/Repositories/*.cs</div>
+        <div class="d">Nenhum uso de FromSqlRaw/FromSqlInterpolated/ExecuteSqlRaw em todo o repositório — todas as consultas (incluindo filtros/paginação/ordenação dinâmica de Pedidos) usam LINQ parametrizado. Sem superfície de SQL Injection.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Frontend sem sinks de XSS</div>
+        <div class="loc mono">client/src/**/*.tsx</div>
+        <div class="d">Nenhuma ocorrência de dangerouslySetInnerHTML, innerHTML, eval ou new Function. Toda a renderização de dados do servidor (nomes de cliente/produto, e-mails) passa pelo escurecimento automático do JSX.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Tokens mantidos só em memória no browser</div>
+        <div class="loc mono">client/src/auth/AuthContext.tsx:53-81</div>
+        <div class="d">accessToken/refreshToken vivem em useRef/useState, nunca em localStorage/sessionStorage — reduz o impacto de um eventual XSS futuro (o app documenta essa decisão na própria UI de depuração).</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="t">Middleware de erro não vaza stack trace em produção</div>
+        <div class="loc mono">src/OrderFlow.Api/Middleware/ExceptionMiddleware.cs:35-60</div>
+        <div class="d">Erros 5xx só retornam "Ocorreu um erro inesperado" fora de Development; detalhes completos vão apenas para o log do servidor com TraceId.</div>
+      </div>
+    </div>
+
+    <div class="card-list">
+      <h3 style="color:var(--critica)">✘ Pontos fracos (riscos centrais)</h3>
+
+      <div class="finding-card fraco">
+        <div class="t">Nenhuma política de autorização "fail-closed"</div>
+        <div class="loc mono">src/OrderFlow.Api/Program.cs:95</div>
+        <div class="d">builder.Services.AddAuthorization() é registrado sem FallbackPolicy. Isso significa que qualquer endpoint novo nasce público por padrão, a menos que alguém lembre de adicionar [Authorize] manualmente — foi exatamente isso que aconteceu nos 5 endpoints GET.</div>
+      </div>
+
+      <div class="finding-card fraco">
+        <div class="t">Endpoints de leitura sem autenticação (achado central desta auditoria)</div>
+        <div class="loc mono">ClientesController, ProdutosController, PedidosController</div>
+        <div class="d">Todas as rotas GET (listar e buscar por id) dos três controllers de negócio estão acessíveis anonimamente, expondo todos os clientes (nome+e-mail), produtos e pedidos. Detalhado na seção de achados.</div>
+      </div>
+
+      <div class="finding-card fraco">
+        <div class="t">Credenciais de banco de dados hardcoded</div>
+        <div class="loc mono">src/OrderFlow.Api/appsettings.json:3</div>
+        <div class="d">Connection string com usuário/senha em texto plano commitados, sem validação de startup equivalente à do JWT rejeitando placeholders/segredos fracos.</div>
+      </div>
+
+      <div class="finding-card fraco">
+        <div class="t">Chave de assinatura JWT de desenvolvimento commitada</div>
+        <div class="loc mono">src/OrderFlow.Api/appsettings.Development.json:3</div>
+        <div class="d">Segredo estático versionado no git; qualquer pessoa com acesso ao repositório pode forjar tokens válidos contra qualquer ambiente que rode com esse segredo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ACHADOS DETALHADOS ======================= -->
+<section class="page">
+  <h2>Achados detalhados por categoria</h2>
+
+  <div class="cat-heading">Categoria 1 — Isolamento de dados (tranca de banco / dono do registro)</div>
+  <p><b>Resultado: sem achados — categoria não aplicável na forma clássica.</b> O domínio (Cliente, Produto, Pedido — ver <span class="mono">src/OrderFlow.Domain/Entities/</span>) não possui campo de propriedade por usuário nem conceito de organização/tenant; é um sistema de back-office de dado único, não uma SaaS multi-inquilino. Não há RLS (Postgres puro via EF Core) nem middleware de tenant a auditar. O mecanismo de isolamento real da aplicação é a própria autenticação — cuja ausência em rotas de leitura está registrada na Categoria 2+3 abaixo.</p>
+
+  <div class="cat-heading">Categoria 2 — Permissão definida no navegador</div>
+  <p><b>Resultado: sem achados — categoria não aplicável.</b> O frontend não possui nenhuma UI condicionada a papel/role (não há isAdmin/canEdit em nenhum componente); a claim <span class="mono">role</span> do JWT é apenas exibida no painel de depuração (SessionPanel.tsx:48-49), nunca usada para esconder/mostrar ações. Não existindo gate de UI por papel, não há gate correspondente a validar no backend nesta categoria.</p>
+
+  <div class="cat-heading">Categoria 3 — IDOR / Controle de acesso quebrado nas rotas de leitura</div>
+
+  <table class="achados">
+    <thead><tr><th style="width:70px">Severidade</th><th style="width:170px">Arquivo:linha</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="chip critica">Crítica</span></td>
+        <td class="file-loc">ClientesController.cs:23-29</td>
+        <td>
+          <span class="mono">GET /api/v1/clientes</span> (ObterTodos) não possui <span class="mono">[Authorize]</span>. Qualquer requisição anônima lista nome e e-mail de todos os clientes cadastrados.
+          <span class="snippet">[HttpGet]
+public async Task&lt;IActionResult&gt; ObterTodos()
+{
+    var clientes = await _clienteRepository.ObterTodosAsync();
+    return Ok(clientes);
+}</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="chip critica">Crítica</span></td>
+        <td class="file-loc">ClientesController.cs:45-57</td>
+        <td>
+          <span class="mono">GET /api/v1/clientes/{id}</span> (ObterPorId) idem: sem <span class="mono">[Authorize]</span>. Combinado com o achado acima, os IDs (GUID) são trivialmente descobertos via a própria listagem, tornando o "segredo" do GUID irrelevante.
+          <span class="snippet">[HttpGet("{id}")]
+public async Task&lt;IActionResult&gt; ObterPorId(Guid id)
+{
+    var cliente = await _clienteRepository.ObterPorIdAsync(id);
+    ...
+    return Ok(cliente);
+}</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="chip critica">Crítica</span></td>
+        <td class="file-loc">ProdutosController.cs:21-26</td>
+        <td>
+          <span class="mono">GET /api/v1/produtos</span> (ObterTodos) sem <span class="mono">[Authorize]</span>. Expõe catálogo completo, preços e estoque a qualquer visitante anônimo.
+          <span class="snippet">[HttpGet]
+public async Task&lt;IActionResult&gt; ObterTodos()
+{
+    var produtos = await _produtoRepository.ObterTodosAsync();
+    return Ok(produtos);
+}</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="chip alta">Alta</span></td>
+        <td class="file-loc">PedidosController.cs:34-47</td>
+        <td>
+          <span class="mono">GET /api/v1/pedidos</span> (ObterTodos, paginado) sem <span class="mono">[Authorize]</span>. Expõe todos os pedidos — cliente vinculado, itens, valores — a qualquer chamador anônimo. Severidade Alta (e não Crítica) apenas porque os dados aqui derivam de Cliente/Produto já expostos pelos achados acima.
+        </td>
+      </tr>
+      <tr>
+        <td><span class="chip alta">Alta</span></td>
+        <td class="file-loc">PedidosController.cs:24-32</td>
+        <td>
+          <span class="mono">GET /api/v1/pedidos/{id}</span> (ObterPorId) sem <span class="mono">[Authorize]</span> — leitura de qualquer pedido individual por ID sem nenhuma verificação.
+          <span class="snippet">[HttpGet("{id}")]
+public async Task&lt;IActionResult&gt; ObterPorId(Guid id)
+{
+    var response = await _pedidoService.ObterPorIdAsync(id);
+    ...
+}</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="chip info">Informativa</span></td>
+        <td class="file-loc">TokenService.cs:28 / (ausência global)</td>
+        <td>
+          O JWT carrega uma claim <span class="mono">ClaimTypes.Role = usuario.Papel</span>, mas nenhum Controller do projeto usa <span class="mono">[Authorize(Roles = ...)]</span> ou qualquer policy baseada em papel. Não é explorável por si só (nenhuma rota hoje depende disso), mas indica que, se uma rota administrativa for adicionada no futuro, não há padrão de RBAC pronto para protegê-la — risco de repetir o mesmo erro dos achados acima.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cat-heading" style="margin-top:26px;">Categoria 4 — Chaves e segredos expostos (hardcode)</div>
+  <table class="achados">
+    <thead><tr><th style="width:70px">Severidade</th><th style="width:170px">Arquivo:linha</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="chip media">Média</span></td>
+        <td class="file-loc">appsettings.json:3</td>
+        <td>
+          Connection string com credenciais reais em texto plano, no arquivo base carregado em qualquer ambiente que não sobrescreva a chave via variável de ambiente.
+          <span class="snippet">"DefaultConnection": "Host=localhost;Port=5432;Database=orderflow;Username=postgres;Password=postgres"</span>
+          Ao contrário de Jwt:Chave, não há <span class="mono">.Validate()</span> rejeitando uma connection string placeholder/vazia — o startup não é "fail-closed" aqui. Condição de explorabilidade: só é um risco real se esse host/senha padrão permanecerem acessíveis fora do ambiente local do desenvolvedor (ex.: alguém reaproveita o valor padrão em Produção).
+        </td>
+      </tr>
+      <tr>
+        <td><span class="chip media">Média</span></td>
+        <td class="file-loc">appsettings.Development.json:3</td>
+        <td>
+          Segredo de assinatura JWT commitado em texto plano (confirmado também no histórico do git — commit 65e9431 e anteriores).
+          <span class="snippet">"Chave": "OrderFlow-Development-Secret-Key-Change-Before-Production-2026"</span>
+          O nome do valor já avisa "Change-Before-Production"; como o Dockerfile não define <span class="mono">ASPNETCORE_ENVIRONMENT</span>, o container roda em Production por padrão e este arquivo não é carregado nele (mitigação real). O risco fica restrito a quem rodar a API localmente com <span class="mono">ASPNETCORE_ENVIRONMENT=Development</span> apontando para um Postgres/rede compartilhados.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cat-heading" style="margin-top:26px;">Categoria 5 — Inputs sem tratamento (XSS)</div>
+  <p><b>Resultado: sem achados.</b> Varredura completa de <span class="mono">client/src</span> (todos os .tsx/.ts) não encontrou nenhuma ocorrência de <span class="mono">dangerouslySetInnerHTML</span>, <span class="mono">innerHTML</span>, <span class="mono">eval</span>, <span class="mono">new Function</span> ou URLs controladas por usuário em href/src. Todo dado vindo da API (nomes de cliente/produto, e-mails, valores) é renderizado como texto via JSX, que escapa automaticamente. Não há sistema de e-mail nem renderização de templates HTML no backend, então a vertente server-side desta categoria não se aplica a este projeto — por isso também não há (nem seria necessária) biblioteca de sanitização como DOMPurify no <span class="mono">package.json</span> do client.</p>
+</section>
+
+<!-- ======================= RECOMENDAÇÕES ======================= -->
+<section class="page">
+  <h2>Recomendações priorizadas</h2>
+
+  <div class="rec-group">
+    <span class="rec-badge p1">P1 — Imediato</span>
+    <div class="rec-item">
+      <div class="rt">Adicionar [Authorize] às 5 rotas GET afetadas</div>
+      <div class="rd">ClientesController (ObterTodos, ObterPorId), ProdutosController (ObterTodos), PedidosController (ObterTodos, ObterPorId).</div>
+    </div>
+    <div class="rec-item">
+      <div class="rt">Trocar o modelo de autorização para "fail-closed"</div>
+      <div class="rd">Definir <span class="mono">FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()</span> em <span class="mono">AddAuthorization</span> (Program.cs:95), e usar <span class="mono">[AllowAnonymous]</span> apenas onde já é usado hoje (AuthController). Isso garante que qualquer endpoint futuro nasça protegido por padrão.</div>
+    </div>
+  </div>
+
+  <div class="rec-group">
+    <span class="rec-badge p2">P2 — Próximo ciclo</span>
+    <div class="rec-item">
+      <div class="rt">Remover credenciais reais de appsettings.json</div>
+      <div class="rd">Mover a connection string para variável de ambiente / dotnet user-secrets / cofre de segredos; deixar no repositório apenas um placeholder óbvio (ex.: "SUBSTITUA_VIA_ENV"). Adicionar <span class="mono">.Validate()</span> no startup rejeitando esse placeholder, no mesmo padrão já usado para Jwt:Chave.</div>
+    </div>
+    <div class="rec-item">
+      <div class="rt">Rotacionar/parar de versionar a chave JWT de desenvolvimento</div>
+      <div class="rd">Gerar a chave localmente via <span class="mono">dotnet user-secrets</span> (fora do controle de versão) em vez de appsettings.Development.json.</div>
+    </div>
+  </div>
+
+  <div class="rec-group">
+    <span class="rec-badge p3">P3 — Hardening / melhoria contínua</span>
+    <div class="rec-item">
+      <div class="rt">Decidir o papel do RBAC</div>
+      <div class="rd">Ou aplicar [Authorize(Roles="Admin")] explicitamente quando surgir uma rota administrativa, ou remover a claim de papel se ela não tiver uso planejado — deixar "pela metade" convida a repetir o achado central desta auditoria.</div>
+    </div>
+    <div class="rec-item">
+      <div class="rt">Teste de regressão para autorização</div>
+      <div class="rd">Um teste de integração que itera todos os endpoints via reflection/roteamento e falha se algum novo endpoint mutante ficar sem [Authorize] evita reincidência do achado P1.</div>
+    </div>
+    <div class="rec-item">
+      <div class="rt">Rate limiting no endpoint de registro</div>
+      <div class="rd">Hoje só <span class="mono">/auth/login</span> tem a policy dedicada "login"; <span class="mono">/auth/registrar</span> cai no limite global de 100 req/min por IP, mais permissivo para criação de contas em massa.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ISSUES PARA O GITHUB ======================= -->
+<section class="page">
+  <h2>Issues para o GitHub</h2>
+  <p>Texto pronto para copiar e colar na criação de issues. Achados triviais do mesmo tema foram agrupados para evitar spam.</p>
+
+  <div class="issue-block">
+    <div class="issue-tag">--- ISSUE 1 ---</div>
+    <div class="issue-md">### Título
+[Segurança] Endpoints de leitura (GET) sem autenticação expõem todos os Clientes, Produtos e Pedidos
+
+### Labels sugeridas
+security, crítica
+
+### Descrição do problema
+Todas as rotas GET dos controllers de negócio (Clientes, Produtos, Pedidos) estão marcadas implicitamente como anônimas: nenhuma delas tem o atributo `[Authorize]`, ao contrário das rotas POST (criar), que o têm corretamente. Como `AddAuthorization()` em Program.cs não define uma FallbackPolicy, o ASP.NET Core trata qualquer endpoint sem `[Authorize]` como público por padrão. Isso é explorável por qualquer cliente HTTP, sem token, sem autenticação alguma.
+
+### Por que é explorável
+GUIDs de Cliente/Produto/Pedido não são segredo — a própria listagem (`GET /api/v1/clientes`, `GET /api/v1/produtos`) devolve todos os IDs existentes. Um atacante não autenticado consegue: (1) listar todos os clientes com nome+e-mail; (2) listar todo o catálogo de produtos com preço/estoque; (3) listar e paginar todos os pedidos com valores e itens; (4) buscar qualquer registro individual por ID.
+
+### Evidência
+- src/OrderFlow.Api/Controllers/ClientesController.cs:23-29 (ObterTodos) e :45-57 (ObterPorId)
+  ```
+  [HttpGet]
+  public async Task&lt;IActionResult&gt; ObterTodos()
+  {
+      var clientes = await _clienteRepository.ObterTodosAsync();
+      return Ok(clientes);
+  }
+  ```
+- src/OrderFlow.Api/Controllers/ProdutosController.cs:21-26 (ObterTodos)
+  ```
+  [HttpGet]
+  public async Task&lt;IActionResult&gt; ObterTodos()
+  {
+      var produtos = await _produtoRepository.ObterTodosAsync();
+      return Ok(produtos);
+  }
+  ```
+- src/OrderFlow.Api/Controllers/PedidosController.cs:34-47 (ObterTodos) e :24-32 (ObterPorId)
+  ```
+  [HttpGet]
+  public async Task&lt;IActionResult&gt; ObterTodos([FromQuery] ConsultaPedidosDto parametros)
+  {
+      var (itens, totalItens) = await _pedidoService.ObterPaginadoAsync(parametros);
+      ...
+  }
+  ```
+
+### Impacto
+Vazamento em massa de dados de clientes (PII: nome + e-mail), catálogo comercial (preços/estoque) e histórico de pedidos (dados de negócio sensíveis) para qualquer parte não autenticada — sem necessidade de nenhuma feature flag ou configuração insegura adicional; a falha se manifesta em qualquer deploy padrão desta branch.
+
+### Sugestão de correção
+1. Adicionar `[Microsoft.AspNetCore.Authorization.Authorize]` às 5 ações GET listadas acima.
+2. Estruturalmente, trocar `builder.Services.AddAuthorization()` (Program.cs:95) por uma versão com `FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()`, mantendo `[AllowAnonymous]` apenas nas 4 rotas do AuthController que já o usam hoje. Isso torna o modelo "fail-closed" e evita a reincidência do problema em endpoints futuros.
+
+### Critérios de aceite
+- [ ] `GET /api/v1/clientes` sem token retorna 401
+- [ ] `GET /api/v1/clientes/{id}` sem token retorna 401
+- [ ] `GET /api/v1/produtos` sem token retorna 401
+- [ ] `GET /api/v1/pedidos` sem token retorna 401
+- [ ] `GET /api/v1/pedidos/{id}` sem token retorna 401
+- [ ] Os mesmos endpoints continuam retornando 200 com um JWT válido
+- [ ] Existe teste de integração que falha caso um novo endpoint seja adicionado sem `[Authorize]` (ou sem estar coberto pela FallbackPolicy)
+- [ ] Rotas `/auth/*` continuam acessíveis anonimamente (login/registro/refresh/revogação)</div>
+  </div>
+  <div class="issue-tag" style="border-radius:0 0 8px 8px; margin-top:-1px;">--- FIM ISSUE 1 ---</div>
+</section>
+
+<section class="page">
+  <div class="issue-block">
+    <div class="issue-tag">--- ISSUE 2 ---</div>
+    <div class="issue-md">### Título
+[Segurança] Segredos e credenciais padrão commitados nos arquivos de configuração
+
+### Labels sugeridas
+security, média
+
+### Descrição do problema
+Dois segredos estão em texto plano, versionados no git:
+1. A connection string do PostgreSQL em `appsettings.json` (usuário e senha reais, embora sejam o padrão local `postgres`/`postgres`).
+2. A chave de assinatura JWT de desenvolvimento em `appsettings.Development.json`.
+Diferente da chave JWT (que tem `.Validate(s => s.Chave.Length >= 32).ValidateOnStart()` em Program.cs), a connection string não tem nenhuma validação de startup que rejeite um valor placeholder/inseguro — não há tratamento simétrico entre os dois segredos.
+
+### Por que é explorável
+Qualquer pessoa com acesso de leitura ao repositório (ou ao histórico do git — confirmado presente desde os commits iniciais) tem as credenciais de banco e a chave de assinatura de tokens. Se qualquer um dos dois valores padrão sobreviver, sem substituição, em um ambiente alcançável pela rede (banco de dados exposto com a senha `postgres`, ou API rodando com `ASPNETCORE_ENVIRONMENT=Development` fora do laptop do desenvolvedor), o atacante pode ler/escrever diretamente no banco ou forjar JWTs válidos para qualquer usuário.
+
+### Evidência
+- src/OrderFlow.Api/appsettings.json:3
+  ```
+  "DefaultConnection": "Host=localhost;Port=5432;Database=orderflow;Username=postgres;Password=postgres"
+  ```
+- src/OrderFlow.Api/appsettings.Development.json:3
+  ```
+  "Chave": "OrderFlow-Development-Secret-Key-Change-Before-Production-2026"
+  ```
+
+### Impacto
+Comprometimento total do banco de dados (leitura/escrita/exclusão) ou falsificação de tokens de autenticação, condicionado a esses valores padrão permanecerem em uso fora do ambiente local isolado do desenvolvedor. Em produção real (container Docker), a chave JWT deste arquivo não é sequer carregada, pois o Dockerfile não define `ASPNETCORE_ENVIRONMENT` (efeito é Production) — isso reduz, mas não elimina, o risco.
+
+### Sugestão de correção
+1. Substituir os valores reais por placeholders óbvios (`"SUBSTITUA_VIA_VARIAVEL_DE_AMBIENTE"`) nos dois arquivos.
+2. Configurar a connection string real via variável de ambiente (`ConnectionStrings__DefaultConnection`) ou `dotnet user-secrets` em desenvolvimento, nunca em arquivo versionado.
+3. Adicionar validação de startup (`.Validate(...).ValidateOnStart()`) rejeitando a connection string quando ausente/placeholder, no mesmo padrão já aplicado a `Jwt:Chave`.
+4. Gerar a chave JWT de desenvolvimento localmente via `dotnet user-secrets set "Jwt:Chave" "..."` e remover o valor de `appsettings.Development.json`.
+
+### Critérios de aceite
+- [ ] `appsettings.json` e `appsettings.Development.json` não contêm mais segredos reais
+- [ ] A aplicação falha ao iniciar (fail-fast) se `ConnectionStrings:DefaultConnection` estiver ausente ou for o placeholder
+- [ ] README/documentação de setup local explica como configurar os segredos via user-secrets/variáveis de ambiente
+- [ ] Segredos antigos (chave JWT de dev) são considerados comprometidos e não reutilizados</div>
+  </div>
+  <div class="issue-tag" style="border-radius:0 0 8px 8px; margin-top:-1px;">--- FIM ISSUE 2 ---</div>
+</section>
+
+</body>
+</html>

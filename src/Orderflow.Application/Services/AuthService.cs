@@ -55,6 +55,7 @@ public class AuthService : IAuthService
             novoHash,
             _tokenService.ObterExpiracaoRefreshToken());
         tokenAtual.Usuario.AdicionarRefreshToken(novoTokenPersistido);
+        await _usuarios.AdicionarRefreshTokenAsync(novoTokenPersistido);
 
         var accessToken = _tokenService.GerarAccessToken(tokenAtual.Usuario);
         await _usuarios.SalvarAlteracoesAsync();

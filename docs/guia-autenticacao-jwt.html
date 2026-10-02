@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Guia de Autenticação - OrderFlow API</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.5; font-size: 13px; }
+  h1 { font-size: 22px; border-bottom: 3px solid #2b6cb0; padding-bottom: 8px; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 12px; margin-bottom: 24px; }
+  h2 { font-size: 16px; color: #2b6cb0; margin-top: 28px; border-left: 4px solid #2b6cb0; padding-left: 10px; }
+  h3 { font-size: 13px; margin-top: 16px; margin-bottom: 6px; }
+  p { margin: 6px 0; }
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 12px; }
+  pre { background: #1e1e2e; color: #cdd6f4; padding: 12px 14px; border-radius: 6px; overflow-x: auto; font-size: 11.5px; line-height: 1.45; page-break-inside: avoid; }
+  pre code { background: none; padding: 0; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+  th { background: #edf2f7; }
+  .step { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin: 10px 0; page-break-inside: avoid; }
+  .step-num { display: inline-block; background: #2b6cb0; color: white; width: 22px; height: 22px; border-radius: 50%; text-align: center; line-height: 22px; font-weight: bold; font-size: 12px; margin-right: 8px; }
+  .warn { background: #fffaf0; border-left: 4px solid #dd6b20; padding: 8px 12px; margin: 10px 0; font-size: 12px; }
+  .ok { background: #f0fff4; border-left: 4px solid #38a169; padding: 8px 12px; margin: 10px 0; font-size: 12px; }
+  .toc { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 18px; }
+  .toc a { color: #2b6cb0; text-decoration: none; }
+  .toc ol { margin: 4px 0; padding-left: 20px; }
+  footer { margin-top: 30px; font-size: 10px; color: #999; border-top: 1px solid #eee; padding-top: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Guia de Autenticação — OrderFlow API</h1>
+<div class="subtitle">Como registrar, logar, usar e renovar tokens JWT. Gerado em 24/08/2026.</div>
+
+<div class="toc">
+<strong>Índice</strong>
+<ol>
+  <li>Subir a API</li>
+  <li>Registrar um usuário</li>
+  <li>Fazer login e obter os tokens</li>
+  <li>Usar o Access Token nas requisições</li>
+  <li>Renovar o token quando expirar (Refresh Token)</li>
+  <li>Revogar um token (logout)</li>
+  <li>Testando pelo Swagger (mais fácil)</li>
+  <li>Testando pelo PowerShell (script completo)</li>
+  <li>Referência rápida</li>
+</ol>
+</div>
+
+<h2>1. Subir a API</h2>
+<div class="step"><span class="step-num">1</span>Abra o terminal na pasta do projeto e rode:</div>
+<pre><code>cd src\OrderFlow.Api
+dotnet run</code></pre>
+<p>A API sobe em duas URLs (perfil <code>https</code>, o padrão):</p>
+<table>
+<tr><th>Protocolo</th><th>URL</th></tr>
+<tr><td>HTTPS</td><td><code>https://localhost:7225</code></td></tr>
+<tr><td>HTTP</td><td><code>http://localhost:5186</code></td></tr>
+</table>
+<p>Swagger fica em: <code>https://localhost:7225/swagger</code></p>
+
+<h2>2. Registrar um usuário</h2>
+<p>Só precisa fazer isso <strong>uma vez</strong> por usuário. Se já tem um usuário criado, pule para o passo 3.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/auth/registrar</code></p>
+<p><strong>Corpo da requisição:</strong></p>
+<pre><code>{
+  "nome": "Seu Nome",
+  "email": "teste@teste.com",
+  "senha": "SenhaForte123"
+}</code></pre>
+<div class="warn">
+<strong>Regras da senha (obrigatórias):</strong> mínimo 8 caracteres, pelo menos 1 letra maiúscula, 1 minúscula e 1 número. Ex: <code>SenhaForte123</code> é válida.
+</div>
+
+<h2>3. Fazer login e obter os tokens</h2>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/auth/login</code></p>
+<p><strong>Corpo da requisição:</strong></p>
+<pre><code>{
+  "email": "teste@teste.com",
+  "senha": "SenhaForte123"
+}</code></pre>
+<p><strong>Resposta (200 OK):</strong></p>
+<pre><code>{
+  "accessToken": "eyJhbGciOi...",
+  "accessTokenExpiraEm": "2026-08-24T15:20:00Z",
+  "refreshToken": "a1b2c3d4-...",
+  "refreshTokenExpiraEm": "2026-08-31T15:05:00Z"
+}</code></pre>
+<div class="ok">
+<strong>Tempos de validade (fixos no código):</strong> Access Token dura <strong>15 minutos</strong>. Refresh Token dura <strong>7 dias</strong>.
+</div>
+
+<h2>4. Usar o Access Token nas requisições</h2>
+<p>Em toda chamada a um endpoint protegido (ex: <code>POST /api/v1/clientes</code>), envie o token no header <code>Authorization</code>:</p>
+<pre><code>Authorization: Bearer eyJhbGciOi...</code></pre>
+<p>Se o token expirou (depois de 15 min), a API responde <code>401 Unauthorized</code> — nesse caso, vá para o passo 5.</p>
+
+<h2>5. Renovar o token quando expirar (Refresh Token)</h2>
+<p>Não precisa logar de novo — use o <code>refreshToken</code> que você guardou no login para pedir um novo par de tokens.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/auth/refresh</code></p>
+<pre><code>{
+  "refreshToken": "a1b2c3d4-..."
+}</code></pre>
+<p>Resposta: um novo <code>accessToken</code> (mais 15 min) e um novo <code>refreshToken</code> (o antigo é invalidado). Sempre guarde o novo refresh token da resposta.</p>
+<div class="warn">O refresh token só funciona enquanto estiver dentro dos 7 dias de validade e não tiver sido revogado. Depois disso, é preciso logar de novo (passo 3).</div>
+
+<h2>6. Revogar um token (logout)</h2>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/auth/revogar</code></p>
+<pre><code>{
+  "refreshToken": "a1b2c3d4-..."
+}</code></pre>
+<p>Isso invalida o refresh token — útil para implementar "logout" de verdade.</p>
+
+<h2>7. Testando pelo Swagger (mais fácil)</h2>
+<div class="step"><span class="step-num">1</span>Abra <code>https://localhost:7225/swagger</code> no navegador.</div>
+<div class="step"><span class="step-num">2</span>Expanda <code>POST /api/v1/auth/login</code>, clique em "Try it out", cole o JSON do passo 3, clique em "Execute".</div>
+<div class="step"><span class="step-num">3</span>Copie o valor de <code>accessToken</code> da resposta (sem aspas).</div>
+<div class="step"><span class="step-num">4</span>No topo da página, clique no botão <strong>Authorize</strong> (ícone de cadeado).</div>
+<div class="step"><span class="step-num">5</span>Cole o token no campo (digite <code>Bearer </code> antes do token, com espaço) e clique em Authorize, depois Close.</div>
+<div class="step"><span class="step-num">6</span>Agora todos os endpoints protegidos (ex: criar cliente) já enviam o token automaticamente.</div>
+
+<h2>8. Testando pelo PowerShell (script completo)</h2>
+<pre><code># 1. Registrar (só na primeira vez)
+Invoke-RestMethod -Uri "https://localhost:7225/api/v1/auth/registrar" -Method Post `
+    -Body (@{ nome = "Seu Nome"; email = "teste@teste.com"; senha = "SenhaForte123" } | ConvertTo-Json) `
+    -ContentType "application/json" -SkipCertificateCheck
+
+# 2. Login
+$resp = Invoke-RestMethod -Uri "https://localhost:7225/api/v1/auth/login" -Method Post `
+    -Body (@{ email = "teste@teste.com"; senha = "SenhaForte123" } | ConvertTo-Json) `
+    -ContentType "application/json" -SkipCertificateCheck
+
+$accessToken  = $resp.accessToken
+$refreshToken = $resp.refreshToken
+Write-Host "Access token expira em:" $resp.accessTokenExpiraEm
+
+# 3. Usar o token em um endpoint protegido
+Invoke-RestMethod -Uri "https://localhost:7225/api/v1/clientes" -Method Post `
+    -Headers @{ Authorization = "Bearer $accessToken" } `
+    -Body (@{ nome = "Cliente Teste"; email = "cliente@teste.com" } | ConvertTo-Json) `
+    -ContentType "application/json" -SkipCertificateCheck
+
+# 4. Quando der 401 (token expirou), renove:
+$novo = Invoke-RestMethod -Uri "https://localhost:7225/api/v1/auth/refresh" -Method Post `
+    -Body (@{ refreshToken = $refreshToken } | ConvertTo-Json) `
+    -ContentType "application/json" -SkipCertificateCheck
+
+$accessToken  = $novo.accessToken
+$refreshToken = $novo.refreshToken   # guarde o novo refresh token!</code></pre>
+
+<h2>9. Referência rápida</h2>
+<table>
+<tr><th>Ação</th><th>Método</th><th>Rota</th><th>Autenticado?</th></tr>
+<tr><td>Registrar usuário</td><td>POST</td><td>/api/v1/auth/registrar</td><td>Não</td></tr>
+<tr><td>Login</td><td>POST</td><td>/api/v1/auth/login</td><td>Não</td></tr>
+<tr><td>Renovar token</td><td>POST</td><td>/api/v1/auth/refresh</td><td>Não (usa refresh token no corpo)</td></tr>
+<tr><td>Revogar token / logout</td><td>POST</td><td>/api/v1/auth/revogar</td><td>Não (usa refresh token no corpo)</td></tr>
+<tr><td>Listar clientes</td><td>GET</td><td>/api/v1/clientes</td><td>Não</td></tr>
+<tr><td>Criar cliente</td><td>POST</td><td>/api/v1/clientes</td><td><strong>Sim</strong> (Bearer)</td></tr>
+<tr><td>Obter cliente por id</td><td>GET</td><td>/api/v1/clientes/{id}</td><td>Não</td></tr>
+</table>
+
+<table>
+<tr><th>Configuração</th><th>Valor</th></tr>
+<tr><td>Duração Access Token</td><td>15 minutos</td></tr>
+<tr><td>Duração Refresh Token</td><td>7 dias</td></tr>
+<tr><td>Regra de senha</td><td>mín. 8 caracteres, 1 maiúscula, 1 minúscula, 1 número</td></tr>
+</table>
+
+<footer>Gerado automaticamente a partir do código-fonte de OrderFlow.Api — src/OrderFlow.Api/Controllers/AuthController.cs, Orderflow.Application/DTO/AuthDtos.cs, OrderFlow.Infrastructure/Security/JwtSettings.cs.</footer>
+
+</body>
+</html>

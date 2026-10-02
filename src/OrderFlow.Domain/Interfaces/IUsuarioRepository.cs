@@ -7,5 +7,6 @@ public interface IUsuarioRepository
     Task<Usuario?> ObterPorEmailAsync(string email);
     Task<RefreshToken?> ObterRefreshTokenAsync(string tokenHash);
     Task AdicionarAsync(Usuario usuario);
+    Task AdicionarRefreshTokenAsync(RefreshToken refreshToken);
     Task SalvarAlteracoesAsync();
 }

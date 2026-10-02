@@ -17,9 +17,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderFlow.Infrastructure.Security;
 using System.Text;
+using System.Threading.RateLimiting;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using OrderFlow.Api.Configurations;
+using Prometheus;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -62,6 +64,7 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddDbContext<OrderFlowDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .UseSnakeCaseNamingConvention()
 );
 
 builder.Services.AddEndpointsApiExplorer();
@@ -112,11 +115,58 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
-builder.Services.AddAutoMapper(typeof(PedidoProfile));
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<PedidoProfile>());
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+
+    options.AddPolicy("login", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+});
+
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!, name: "postgres");
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
+builder.Services.AddHttpClient("pagamentos", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:1"); // porta que ninguém escuta = falha garantida, só para teste
+})
+.AddStandardResilienceHandler(options =>
+{
+    options.Retry.MaxRetryAttempts = 3;
+    options.CircuitBreaker.FailureRatio = 0.5;
+    options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(5);
+});
 
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
@@ -132,9 +182,12 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+app.UseRateLimiter();
+app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
+app.MapHealthChecks("/health");
+app.MapMetrics();
 
 app.Run();
